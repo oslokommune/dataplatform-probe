@@ -10,12 +10,19 @@ jobs:
     name: openrate-consumer
     runs-on: ubuntu-latest
     steps:
-      - name: Read version from versions file
+      - name: Read version from version file
         id: read_version
         uses: christian-draeger/read-properties@1.0.1
         with:
           path: 'version.properties'
           property: 'version'
+
+      - name: Bump version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.1
+        with:
+          current-version: ${{ steps.read_version.outputs.value }}
+          version-fragment: 'bug'
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1 
@@ -32,16 +39,9 @@ jobs:
           push: true
           tags: |
             ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:latest
-            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:${{ steps.read_version.outputs.value }}
+            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:${{ steps.bump_version.outputs.next-version }}
 
-      - name: Bump version
-        id: bump_version
-        uses: christian-draeger/increment-semantic-version@1.0.1
-        with:
-          current-version: ${{ steps.read_version.outputs.value }}
-          version-fragment: 'bug'
-
-      - name: Bump version in properties file
+      - name: Save version bump to file
         uses: christian-draeger/write-properties@1.0.1
         with:
           path: 'version.properties'

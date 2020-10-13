@@ -26,3 +26,7 @@ Alternatively, you can use the [run.sh](run.sh) script and simply add
 in the client secrets yourself:
 1. `pipenv install`
 2. `pipenv run script`
+
+## Metrics
+This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
+metrics regarding pipeline latency through a http server on port 8000

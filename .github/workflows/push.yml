@@ -7,7 +7,7 @@ on:
 
 jobs:
   push:
-    name: openrate-consumer
+    name: Build and push image
     runs-on: ubuntu-latest
     steps:
       - name: Read version from version file

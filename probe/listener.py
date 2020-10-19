@@ -30,6 +30,7 @@ def listen_to_websocket(dataset_id):
         ws = create_connection(websocket_url)
         while True:
             result = ws.recv()
+            log.info("Got event")
             result_json = json.loads(result)
             if result_json["app_id"] == app_id:
                 log.info(f"Received event with ID {result_json['seqno']}")
@@ -38,6 +39,7 @@ def listen_to_websocket(dataset_id):
                 result_json["time_spent"] = (
                     time_received - datetime.fromisoformat(result_json["time_sent"])
                 ).total_seconds()
+                log.info("Sending to receiver")
                 received_event_count.inc()
                 received_events.put(result_json)
             else:

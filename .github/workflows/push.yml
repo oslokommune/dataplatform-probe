@@ -1,0 +1,59 @@
+name: Push workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  push:
+    name: Build and push image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read version from version file
+        id: read_version
+        uses: christian-draeger/read-properties@1.0.1
+        with:
+          path: 'version.properties'
+          property: 'version'
+
+      - name: Bump version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.1
+        with:
+          current-version: ${{ steps.read_version.outputs.value }}
+          version-fragment: 'bug'
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:latest
+            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:${{ steps.bump_version.outputs.next-version }}
+
+      - name: Save version bump to file
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: 'version.properties'
+          property: 'version'
+          value: ${{ steps.bump_version.outputs.next-version }}
+
+      - name: Commit and push version bump
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: 'Github Actions'
+          author_email: 'action@github.com'
+          add: 'version.properties'
+          message: Bump version to ${{ steps.bump_version.outputs.next-version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

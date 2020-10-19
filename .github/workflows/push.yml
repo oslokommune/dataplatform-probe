@@ -26,6 +26,9 @@ jobs:
           current-version: ${{ steps.read_version.outputs.value }}
           version-fragment: 'bug'
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1 
         with:

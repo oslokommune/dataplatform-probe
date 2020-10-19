@@ -43,8 +43,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:latest
-            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-frontend:${{ steps.bump_version.outputs.next-version }}
+            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-probe:latest
+            ghcr.io/oslokommune/ok-origo-dataplatform/dataplatform-probe:${{ steps.bump_version.outputs.next-version }}
 
       - name: Save version bump to file
         uses: christian-draeger/write-properties@1.0.1

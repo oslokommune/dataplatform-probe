@@ -1,5 +1,5 @@
 from globals import received_events
-from utils import EventPrinter
+from utils import EventPrinter, log
 
 printer = EventPrinter()
 

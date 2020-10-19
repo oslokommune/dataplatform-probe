@@ -10,6 +10,8 @@ jobs:
     name: Build and push image
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Read version from version file
         id: read_version
         uses: christian-draeger/read-properties@1.0.1

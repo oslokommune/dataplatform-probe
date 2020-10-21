@@ -2,8 +2,8 @@ import json
 import os
 from datetime import datetime, timezone
 
-from globals import received_events, app_id
-from utils import log
+from globals import app_id, event_interval
+from utils import log, EventPrinter
 from websocket import create_connection, WebSocketException
 from prometheus_client import Counter
 
@@ -18,6 +18,8 @@ wrong_appid_count = Counter(
     documentation="Number of events received with a mismatched app id",
 )
 
+printer = EventPrinter()
+
 
 def listen_to_websocket(dataset_id):
     websocket_url = (
@@ -27,10 +29,9 @@ def listen_to_websocket(dataset_id):
     log.info(f"Attempting to listen to websocket at {websocket_base_url}")
     try:
         log.info("Establishing connection to websocket...")
-        ws = create_connection(websocket_url)
+        ws = create_connection(websocket_url, timeout=event_interval + 60)
         while True:
             result = ws.recv()
-            log.info("Got event")
             result_json = json.loads(result)
             if result_json["app_id"] == app_id:
                 log.info(f"Received event with ID {result_json['seqno']}")
@@ -41,7 +42,7 @@ def listen_to_websocket(dataset_id):
                 ).total_seconds()
                 log.info("Sending to receiver")
                 received_event_count.inc()
-                received_events.put(result_json)
+                printer.print_event(result_json)
             else:
                 log.info(
                     f"Received event with ID {result_json['seqno']}, but app_id was not a match. Skipping"
@@ -49,6 +50,6 @@ def listen_to_websocket(dataset_id):
                 wrong_appid_count.inc()
     except WebSocketException as e:
         log.error(f"Exception received from websocket: {e}")
-        pass
-
-    ws.close()
+    finally:
+        log.info("Listener shutting down")
+        ws.close()

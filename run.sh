@@ -9,4 +9,5 @@ export ORIGO_ENVIRONMENT=dev
 export KEYCLOAK_REALM=api-catalog
 export AWS_XRAY_SDK_ENABLED=false
 export EVENT_INTERVAL_SECONDS=15
+export MAX_CONSECUTIVE_ERRORS=3
 python probe/run_probe.py

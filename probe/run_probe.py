@@ -2,10 +2,11 @@ import threading
 from time import sleep
 
 from events import post_event
-from globals import event_interval
+from globals import event_interval, max_consecutive_errors
 from listener import listen_to_websocket
-from receiver import get_returned_events
 from utils import log, print_header
+
+from requests import HTTPError
 
 from aws_xray_sdk.core import xray_recorder
 from origo.config import Config
@@ -36,17 +37,22 @@ def main():
     )
     listener.start()
 
-    receiver = threading.Thread(
-        target=get_returned_events, name="Receiver", daemon=True
-    )
-    receiver.start()
-
     log.info(
         f"Sending and listening to events continuously, sending every {event_interval} seconds"
     )
-
+    num_of_errors = 0
     while True:
-        post_event(dataset_id, version, event_poster)
+        if not listener.is_alive():
+            log.info("Error encountered. Shutting down")
+            listener.join()
+            exit(1)
+        try:
+            post_event(dataset_id, version, event_poster)
+        except HTTPError as e:
+            log.error(f"Exception ocurred when sending event: {e}")
+            num_of_errors += 1
+            continue
+        num_of_errors = 0
         sleep(event_interval)
 
 

@@ -2,7 +2,7 @@ import threading
 from time import sleep
 
 from events import post_event
-from globals import event_interval, max_consecutive_errors
+from globals import event_interval, max_consecutive_errors, dataset_id
 from listener import listen_to_websocket
 from utils import log, print_header
 
@@ -15,7 +15,6 @@ from prometheus_client import start_http_server
 
 
 def main():
-    dataset_id = "monitoring-test"
     version = 1
 
     print_header()

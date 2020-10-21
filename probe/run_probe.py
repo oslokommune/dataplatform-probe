@@ -44,16 +44,20 @@ def main():
     while True:
         if not listener.is_alive():
             log.info("Error encountered. Shutting down")
-            listener.join()
-            exit(1)
+            break
         try:
             post_event(dataset_id, version, event_poster)
         except HTTPError as e:
             log.error(f"Exception ocurred when sending event: {e}")
             num_of_errors += 1
+            if num_of_errors >= max_consecutive_errors:
+                break
             continue
         num_of_errors = 0
         sleep(event_interval)
+
+    listener.join()
+    exit(1)
 
 
 if __name__ == "__main__":

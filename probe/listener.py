@@ -40,7 +40,6 @@ def listen_to_websocket(dataset_id):
                 result_json["time_spent"] = (
                     time_received - datetime.fromisoformat(result_json["time_sent"])
                 ).total_seconds()
-                log.info("Sending to receiver")
                 received_event_count.inc()
                 printer.print_event(result_json)
             else:

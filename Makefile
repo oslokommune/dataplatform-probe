@@ -1,3 +1,7 @@
+ ifeq (, $(shell which pipenv))
+ $(error "Pipenv not found in PATH. Install here: https://github.com/pypa/pipenv#installation")
+ endif
+
 .PHONY: run-script
 run-script:
 	pipenv run script

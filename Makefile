@@ -14,8 +14,8 @@ init:
 clean:
 	pipenv clean
 
-.PHONY: flake8
-flake8:
+.PHONY: lint
+lint:
 	pipenv run flake8
 
 .PHONY: format-diff

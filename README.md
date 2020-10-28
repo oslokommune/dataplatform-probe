@@ -1,7 +1,9 @@
 # dataplatform-probe
 Monitoring service for dataplatform services and events
 
-## Running
+This application continuously sends events to the dataplatform pipeline to test the latency of the pipeline.  
+It requires [Pipenv](https://github.com/pypa/pipenv) to be installed.
+## Development
 Running this app requires these environment variables to be set:
 
 | Name                   | Description                                                         |
@@ -18,16 +20,43 @@ Running this app requires these environment variables to be set:
 | EVENT_INTERVAL_SECONDS | Number of seconds to wait before sending an event                   |
 | MAX_CONSECUTIVE_ERRORS | Number of consecutive errors allowed when attempting to post events |
 
-Once these environment variables are set you can
-run the app with [Pipenv](https://github.com/pypa/pipenv):
-1. `pipenv install`
-2. `pipenv run app`
+The [run.sh](run.sh) script provided sets these environment variables and starts the app. If you wish to use it,
+make sure to edit it to include the missing environment variables (secrets and such).
 
-Alternatively, you can use the [run.sh](run.sh) script and simply add
-in the client secrets yourself:
-1. `pipenv install`
-2. `pipenv run script`
+A makefile with various commands is provided for convenience and to ease development. These are:
+
+#### Install dependencies
+`make init`
+#### Format using black
+`make format`
+#### Show format diff using black
+`make format-diff`
+#### Lint using flake8
+`make lint`
+#### Run the app
+`make run-app`
+#### Execute the [run.sh](run.sh) script
+`make run-script`
 
 ## Metrics
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
-metrics regarding pipeline latency through a http server on port 8000
+metrics to Prometheus regarding pipeline latency through a http server on port 8000.
+
+These metrics are:
+- **events_posted** (Counter): The count of events posted to the pipeline
+- **event_post_errors** (Counter): The count of errors experienced when posting events
+- **events_received** (Counter): The count of events received from the pipeline
+- **wrong_appid** (Counter): The count of events received with the wrong App ID(posted by another instance of probe)
+- **max_time_spent** (Gauge): The maximum latency experienced for all the events
+- **min_time_spent** (Gauge): The minimum latency experienced for all the events
+- **avg_time_spent** (Gauge): The average latency experienced for all the events
+
+## Dependencies
+This application uses the following dependencies:
+- [Pipenv](https://github.com/pypa/pipenv)
+- [aws-xray-sdk](https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-python.html)
+- [origo-sdk-python](https://github.com/oslokommune/origo-sdk-python)
+- [websocket_client](https://github.com/websocket-client/websocket-client)
+- [prometheus-client](https://github.com/prometheus/client_python)
+- [flake8](https://pypi.org/project/flake8/)
+- [black](https://github.com/psf/black)

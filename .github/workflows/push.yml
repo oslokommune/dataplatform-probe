@@ -8,7 +8,6 @@ on:
       - .github/workflows/*
       - probe/**
       - resources/**
-      - .env
       - Dockerfile
       - Pipfile*
       - docker-entrypoint.sh

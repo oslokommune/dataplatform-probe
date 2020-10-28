@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - master
+    paths:
+      - probe/**
+      - resources/**
+      - .env
+      - Dockerfile
+      - Pipfile*
+      - docker-entrypoint.sh
+      - version.properties
 
 jobs:
   push:

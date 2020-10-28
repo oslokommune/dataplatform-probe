@@ -1,5 +1,5 @@
 # dataplatform-probe
-Monitoring service for dataplatform services and events  
+Monitoring service for dataplatform services and events
 
 This application continuously sends events to the dataplatform pipeline to test the latency of the pipeline.  
 It requires [Pipenv](https://github.com/pypa/pipenv) to be installed.
@@ -21,7 +21,7 @@ Running this app requires these environment variables to be set:
 | MAX_CONSECUTIVE_ERRORS | Number of consecutive errors allowed when attempting to post events |
 
 The [run.sh](run.sh) script provided sets these environment variables and starts the app. If you wish to use it,
-make sure to edit it to include the missing environment variables(secrets and such)
+make sure to edit it to include the missing environment variables (secrets and such).
 
 A makefile with various commands is provided for convenience and to ease development. These are:
 
@@ -40,16 +40,16 @@ A makefile with various commands is provided for convenience and to ease develop
 
 ## Metrics
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
-metrics to prometheus regarding pipeline latency through a http server on port 8000.  
+metrics to Prometheus regarding pipeline latency through a http server on port 8000.
 
 These metrics are:
-- **events_posted**(Counter): The count of events posted to the pipeline
-- **event_post_errors**(Counter): The count of errors experienced when posting events
-- **events_received**(Counter): The count of events received from the pipeline
-- **wrong_appid**(Counter): The count of events received with the wrong App ID(posted by another instance of probe)
-- **max_time_spent**(Gauge): The maximum latency experienced for all the events
-- **min_time_spent**(Gauge): The minimum latency experienced for all the events
-- **avg_time_spent**(Gauge): The average latency experienced for all the events
+- **events_posted** (Counter): The count of events posted to the pipeline
+- **event_post_errors** (Counter): The count of errors experienced when posting events
+- **events_received** (Counter): The count of events received from the pipeline
+- **wrong_appid** (Counter): The count of events received with the wrong App ID(posted by another instance of probe)
+- **max_time_spent** (Gauge): The maximum latency experienced for all the events
+- **min_time_spent** (Gauge): The minimum latency experienced for all the events
+- **avg_time_spent** (Gauge): The average latency experienced for all the events
 
 ## Dependencies
 This application uses the following dependencies:

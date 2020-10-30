@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timezone
 
 from globals import app_id, event_interval
-from utils import log, EventPrinter
+from utils import log, EventPrinter, get_metric_name
 from websocket import create_connection, WebSocketException
 from prometheus_client import Counter
 
@@ -11,10 +11,10 @@ webhook_token = os.getenv("WEBHOOK_TOKEN")
 websocket_base_url = os.getenv("WEBSOCKET_URL")
 
 received_event_count = Counter(
-    name="events_received", documentation="Number of received events"
+    name=get_metric_name("events_received"), documentation="Number of received events"
 )
 wrong_appid_count = Counter(
-    name="wrong_appid",
+    name=get_metric_name("wrong_appid"),
     documentation="Number of events received with a mismatched app id",
 )
 

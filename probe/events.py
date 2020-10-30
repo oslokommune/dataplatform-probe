@@ -1,13 +1,13 @@
 from datetime import datetime, timezone
 from itertools import count
 from globals import app_id
-from utils import log
+from utils import log, get_metric_name
 from prometheus_client import Counter
 
 counter = count(start=1)
 
 events_posted_count = Counter(
-    name="events_posted", documentation="Number of events posted"
+    name=get_metric_name("events_posted"), documentation="Number of events posted"
 )
 
 

@@ -4,7 +4,7 @@ from time import sleep
 from events import post_event
 from globals import event_interval, max_consecutive_errors, dataset_id
 from listener import listen_to_websocket
-from utils import log, print_header
+from utils import log, print_header, get_metric_name
 
 from requests import HTTPError
 
@@ -14,7 +14,7 @@ from origo.event.post_event import PostEvent
 from prometheus_client import start_http_server, Counter
 
 event_post_errors_count = Counter(
-    name="event_post_errors", documentation="Count of errors experienced when posting events"
+    name=get_metric_name("event_post_errors"), documentation="Count of errors experienced when posting events"
 )
 
 

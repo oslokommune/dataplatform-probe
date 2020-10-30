@@ -43,13 +43,13 @@ This app uses the [prometheus_client](https://github.com/prometheus/client_pytho
 metrics to Prometheus regarding pipeline latency through a http server on port 8000.
 
 These metrics are:
-- **events_posted** (Counter): The count of events posted to the pipeline
-- **event_post_errors** (Counter): The count of errors experienced when posting events
-- **events_received** (Counter): The count of events received from the pipeline
-- **wrong_appid** (Counter): The count of events received with the wrong App ID(posted by another instance of probe)
-- **max_time_spent** (Gauge): The maximum latency experienced for all the events
-- **min_time_spent** (Gauge): The minimum latency experienced for all the events
-- **avg_time_spent** (Gauge): The average latency experienced for all the events
+- **probe_events_posted** (Counter): The count of events posted to the pipeline
+- **probe_event_post_errors** (Counter): The count of errors experienced when posting events
+- **probe_events_received** (Counter): The count of events received from the pipeline
+- **probe_wrong_appid** (Counter): The count of events received with the wrong App ID(posted by another instance of probe)
+- **probe_max_time_spent** (Gauge): The maximum latency experienced for all the events
+- **probe_min_time_spent** (Gauge): The minimum latency experienced for all the events
+- **probe_avg_time_spent** (Gauge): The average latency experienced for all the events
 
 ## Dependencies
 This application uses the following dependencies:

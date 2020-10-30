@@ -11,6 +11,10 @@ handler.setFormatter(log_formatter)
 log.addHandler(handler)
 
 
+def get_metric_name(name):
+    return f"probe_{name}"
+
+
 def print_header():
     with open("resources/header.txt", "r") as f:
         print(f.read())
@@ -22,13 +26,13 @@ class EventPrinter:
     avg_time_spent = 0.0
     events_received = 0
     max_time_spent_gauge = Gauge(
-        name="max_time_spent", documentation="Maximum event latency"
+        name=get_metric_name("events_max_time_spent"), documentation="Maximum event latency"
     )
     min_time_spent_gauge = Gauge(
-        name="min_time_spent", documentation="Minimum event latency"
+        name=get_metric_name("events_min_time_spent"), documentation="Minimum event latency"
     )
     avg_time_spent_gauge = Gauge(
-        name="avg_time_spent", documentation="Average event latency"
+        name=get_metric_name("events_avg_time_spent"), documentation="Average event latency"
     )
 
     def print_event(self, event):

@@ -1,6 +1,6 @@
 from datetime import datetime
 from logging import getLogger, Formatter, StreamHandler, getLevelName
-from math import inf
+
 from prometheus_client import Gauge
 
 log = getLogger()
@@ -21,18 +21,8 @@ def print_header():
 
 
 class EventPrinter:
-    max_time_spent = -inf
-    min_time_spent = inf
-    avg_time_spent = 0.0
-    events_received = 0
-    max_time_spent_gauge = Gauge(
-        name=get_metric_name("events_max_time_spent"), documentation="Maximum event latency"
-    )
-    min_time_spent_gauge = Gauge(
-        name=get_metric_name("events_min_time_spent"), documentation="Minimum event latency"
-    )
-    avg_time_spent_gauge = Gauge(
-        name=get_metric_name("events_avg_time_spent"), documentation="Average event latency"
+    event_latency = Gauge(
+        name=get_metric_name("event_latency"), documentation="Event latency"
     )
 
     def print_event(self, event):
@@ -41,30 +31,4 @@ class EventPrinter:
             f"- Time Received: {datetime.fromisoformat(event['time_received'])} "
             f"- Time Spent(seconds): {event['time_spent']}"
         )
-
-        self.events_received += 1
-        self.max_time_spent = max(self.max_time_spent, event["time_spent"])
-        self.min_time_spent = min(self.min_time_spent, event["time_spent"])
-        self.avg_time_spent = self.avg_time_spent + (
-            (event["time_spent"] - self.avg_time_spent) / self.events_received
-        )
-        self.max_time_spent_gauge.set(self.max_time_spent)
-        self.min_time_spent_gauge.set(self.min_time_spent)
-        self.avg_time_spent_gauge.set(self.avg_time_spent)
-        log.info(f"Max time spent: {round(self.max_time_spent, 2)}s")
-        log.info(f"Min time spent: {round(self.min_time_spent, 2)}s")
-        log.info(f"Average time spent: {round(self.avg_time_spent, 2)}s")
-
-        # t = PrettyTable(["Event ID", 'Time Sent', "Time Received", "Time spent(seconds)"])
-        # for event in events_to_print:
-        #    t.add_row(
-        #        [event['seqno'], datetime.fromisoformat(event['time_sent']),
-        #         datetime.fromisoformat(event['time_received']), event['time_spent']]
-        #    )
-        # log.info(f"Printing {len(events_to_print)} events")
-        # log.info("\n" + str(t))
-
-        # time_spent_values = [event['time_spent'] for event in events_to_print]
-        # log.info(f"Max time spent: {round(max(time_spent_values), 2)}s")
-        # log.info(f"Min time spent: {round(min(time_spent_values), 2)}s")
-        # log.info(f"Average time spent: {round(sum(time_spent_values) / len(time_spent_values), 2)}s")
+        self.event_latency.set(event["time_spent"])

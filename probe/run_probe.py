@@ -14,7 +14,8 @@ from origo.event.post_event import PostEvent
 from prometheus_client import start_http_server, Counter
 
 event_post_errors_count = Counter(
-    name=get_metric_name("event_post_errors"), documentation="Count of errors experienced when posting events"
+    name=get_metric_name("event_post_errors"),
+    documentation="Count of errors experienced when posting events",
 )
 
 

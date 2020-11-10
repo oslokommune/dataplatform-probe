@@ -1,7 +1,7 @@
 # dataplatform-probe
 Monitoring service for dataplatform services and events
 
-This application continuously sends events to the dataplatform pipeline to test the latency of the pipeline.  
+This application continuously sends events to the dataplatform pipeline to test the latency of the pipeline.
 It requires [Pipenv](https://github.com/pypa/pipenv) to be installed.
 ## Development
 Running this app requires these environment variables to be set:
@@ -47,9 +47,7 @@ These metrics are:
 - **probe_event_post_errors** (Counter): The count of errors experienced when posting events
 - **probe_events_received** (Counter): The count of events received from the pipeline
 - **probe_wrong_appid** (Counter): The count of events received with the wrong App ID(posted by another instance of probe)
-- **probe_max_time_spent** (Gauge): The maximum latency experienced for all the events
-- **probe_min_time_spent** (Gauge): The minimum latency experienced for all the events
-- **probe_avg_time_spent** (Gauge): The average latency experienced for all the events
+- **probe_event_latency** (Gauge): The latency of the latest received event
 
 ## Dependencies
 This application uses the following dependencies:

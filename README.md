@@ -18,7 +18,6 @@ Running this app requires these environment variables to be set:
 | KEYCLOAK_REALM         | Name of the keycloak realm to use                                   |
 | AWS_XRAY_SDK_ENABLED   | Whether to use AWS XRAY SDK (true/false)                            |
 | EVENT_INTERVAL_SECONDS | Number of seconds to wait before sending an event                   |
-| MAX_CONSECUTIVE_ERRORS | Number of consecutive errors allowed when attempting to post events |
 
 The [run.sh](run.sh) script provided sets these environment variables and starts the app. If you wish to use it,
 make sure to edit it to include the missing environment variables (secrets and such).

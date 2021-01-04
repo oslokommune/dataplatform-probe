@@ -1,3 +1,4 @@
+import os
 import threading
 
 from aws_xray_sdk.core import xray_recorder
@@ -6,12 +7,13 @@ from origo.event.post_event import PostEvent
 from prometheus_client import start_http_server
 
 from events import post_event
-from globals import dataset_id, event_interval
+from globals import event_interval
 from listener import listen_to_websocket
 from utils import log, print_header
 
 
 def main():
+    dataset_id = os.getenv("DATASET_ID")
     version = 1
 
     print_header()

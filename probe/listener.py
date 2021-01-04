@@ -1,11 +1,11 @@
 import json
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
-from prometheus_client import Counter, Gauge
+from prometheus_client import Counter
 from websocket import create_connection, WebSocketException
 
-from events import events_posted, events_posted_lock
+from events import mark_event_as_seen
 from globals import app_id, event_interval
 from utils import log, EventPrinter, get_metric_name
 
@@ -21,54 +21,12 @@ wrong_appid_count = Counter(
     documentation="Number of events received with a mismatched app id",
 )
 
-events_missing_10s = Gauge(
-    name=get_metric_name("events_missing_10s"),
-    documentation="Number of missing events that are less than 10 seconds old",
-)
-
-events_missing_1m = Gauge(
-    name=get_metric_name("events_missing_1m"),
-    documentation="Number of missing events that are less than 1 minute old",
-)
-
-events_missing_10m = Gauge(
-    name=get_metric_name("events_missing_10m"),
-    documentation="Number of missing events that are less than 10 minutes old",
-)
-
-events_missing_1h = Gauge(
-    name=get_metric_name("events_missing_1h"),
-    documentation="Number of missing events that are less than 1 hour old",
-)
-
 
 printer = EventPrinter()
 
 
-def update_missing_events():
-    with events_posted_lock:
-        timestamps = events_posted.values()
-
-    now = datetime.now(timezone.utc)
-
-    events_missing_10s.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(seconds=10))
-    )
-    events_missing_1m.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(minutes=1))
-    )
-    events_missing_10m.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(minutes=10))
-    )
-    events_missing_1h.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(minutes=60))
-    )
-
-
 def _listen(ws, dataset_id):
     while True:
-        update_missing_events()
-
         response = ws.recv()
         time_received = datetime.now(timezone.utc)
 
@@ -76,13 +34,12 @@ def _listen(ws, dataset_id):
             raise WebSocketException("Unknown opcode from websocket `recv`.")
 
         result = json.loads(response)
+        seqno = result["seqno"]
+
         if result["app_id"] == app_id:
-            seqno = result["seqno"]
             log.info(f"Received event with ID {seqno}")
 
-            with events_posted_lock:
-                events_posted.pop(seqno, None)
-            update_missing_events()
+            mark_event_as_seen(seqno)
 
             result["time_received"] = time_received.isoformat()
             result["time_spent"] = (

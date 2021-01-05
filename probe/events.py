@@ -20,22 +20,22 @@ event_post_error_count = Counter(
 
 events_missing_10s = Gauge(
     name=get_metric_name("events_missing_10s"),
-    documentation="Number of missing events that are less than 10 seconds old",
+    documentation="Number of missing events that are more than 10 seconds old",
 )
 
 events_missing_1m = Gauge(
     name=get_metric_name("events_missing_1m"),
-    documentation="Number of missing events that are less than 1 minute old",
+    documentation="Number of missing events that are more than 1 minute old",
 )
 
 events_missing_10m = Gauge(
     name=get_metric_name("events_missing_10m"),
-    documentation="Number of missing events that are less than 10 minutes old",
+    documentation="Number of missing events that are more than 10 minutes old",
 )
 
 events_missing_1h = Gauge(
     name=get_metric_name("events_missing_1h"),
-    documentation="Number of missing events that are less than 1 hour old",
+    documentation="Number of missing events that are more than 1 hour old",
 )
 
 _events_posted_lock = RLock()
@@ -47,16 +47,16 @@ def _update_missing_events():
     now = datetime.now(timezone.utc)
 
     events_missing_10s.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(seconds=10))
+        sum(1 for ts in timestamps if now > ts + timedelta(seconds=10))
     )
     events_missing_1m.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(minutes=1))
+        sum(1 for ts in timestamps if now > ts + timedelta(minutes=1))
     )
     events_missing_10m.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(minutes=10))
+        sum(1 for ts in timestamps if now > ts + timedelta(minutes=10))
     )
     events_missing_1h.set(
-        sum(1 for ts in timestamps if ts > now - timedelta(minutes=60))
+        sum(1 for ts in timestamps if now > ts + timedelta(minutes=60))
     )
 
 

@@ -3,7 +3,6 @@ from itertools import count
 from threading import RLock
 
 from prometheus_client import Counter, Gauge
-from requests import HTTPError
 
 from globals import app_id
 from utils import log, get_metric_name
@@ -75,13 +74,12 @@ def post_event(dataset_id, version, event_poster):
 
     try:
         event_poster.post_event(event, dataset_id, version)
+        event_post_count.inc()
 
         with _events_posted_lock:
             _events_posted[seqno] = now
             _update_missing_events()
 
-    except HTTPError as e:
+    except Exception as e:
         log.error(f"Error when sending event: {e}")
         event_post_error_count.inc()
-
-    event_post_count.inc()

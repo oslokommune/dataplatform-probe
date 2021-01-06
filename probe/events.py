@@ -43,8 +43,16 @@ _events_posted = {}
 
 
 def _update_missing_events():
-    timestamps = _events_posted.values()
     now = datetime.now(timezone.utc)
+
+    # Clean out events that have been missing for more than 24 hours.
+    _events_posted = {
+        seqno: sent
+        for seqno, sent in _events_posted.items()
+        if sent + timedelta(hours=24) > now
+    }
+
+    timestamps = _events_posted.values()
 
     events_missing_10s.set(
         sum(1 for ts in timestamps if now > ts + timedelta(seconds=10))

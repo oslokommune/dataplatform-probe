@@ -46,10 +46,10 @@ These metrics are:
 - **probe_event_post_errors** (Counter): The number of errors experienced when posting events.
 - **probe_events_received** (Counter): The number of events received from the pipeline.
 - **probe_wrong_appid** (Counter): The number of events received with the wrong App ID (posted by another instance of probe).
-- **events_missing_10s** (Gauge): The number of missing events that are less than 10 seconds old.
-- **events_missing_1m** (Gauge): The number of missing events that are less than 1 minute old.
-- **events_missing_10m** (Gauge): The number of missing events that are less than 10 minutes old.
-- **events_missing_1h** (Gauge): The number of missing events that are less than 1 hour old.
+- **events_missing_10s** (Gauge): The number of missing events that are more than 10 seconds old.
+- **events_missing_1m** (Gauge): The number of missing events that are more than 1 minute old.
+- **events_missing_10m** (Gauge): The number of missing events that are more than 10 minutes old.
+- **events_missing_1h** (Gauge): The number of missing events that are more than 1 hour old.
 - **probe_event_latency** (Gauge): The latency of the latest received event.
 
 ## Dependencies

@@ -43,6 +43,8 @@ _events_posted = {}
 
 
 def _update_missing_events():
+    global _events_posted
+
     now = datetime.now(timezone.utc)
 
     # Clean out events that have been missing for more than 24 hours.

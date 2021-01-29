@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d1ba1d744ff9834e1bc11672d498598eedff866c104b1defff0d23bfc4e35b29"
+            "sha256": "84f043d3da5a111894deb1916e19dbf12df8e37f1dbd894dc2978d6eb35b0057"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -34,10 +34,10 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:1046c152e5865aabbe6b10b2d33e652b3dd072516f3976e96cacc6b7c4460d02",
-                "sha256:29b4b9be5b40f392a033926c08c004c01bd6471384ef6f12eaa49ee3870a010c"
+                "sha256:ad4adfcc195b5401d84b0c65d3a89e507c1d54c201879c8761ff10ef5c361e21",
+                "sha256:d3694f6ef918def8082513e5ef309cd6cd83b612e9984e3a66e8adc98c650a92"
             ],
-            "version": "==1.19.62"
+            "version": "==1.19.63"
         },
         "certifi": {
             "hashes": [
@@ -87,11 +87,11 @@
         },
         "jsonpickle": {
             "hashes": [
-                "sha256:1bd34a2ae8e51d3adbcafe83dc2d5cc81be53ada8bb16959ca6aca499bceada2",
-                "sha256:423d7b5e6c606d4c0efd93819913191e375f3a23c0874f39df94d2e20dd21c93"
+                "sha256:060f97096559d1b86aa16cac2f4ea5f7b6da0c15d8a4de150b78013a886f9a51",
+                "sha256:8eb8323f0e12cb40687f0445e2115d8165901e20ac670add55bb53a95c68c0e5"
             ],
             "markers": "python_version >= '2.7'",
-            "version": "==1.5.0"
+            "version": "==1.5.1"
         },
         "jsonschema": {
             "hashes": [
@@ -100,13 +100,13 @@
             ],
             "version": "==3.2.0"
         },
-        "origo-sdk-python": {
+        "okdata-sdk": {
             "hashes": [
-                "sha256:1d8ec8d77b93adbdadf84b2a78f5772a7fb9f4b47dc9c38a9845c85d3e5e1ff2",
-                "sha256:4979e15a860c454bc32250846e243d90fe56190aae3de77ae67ccc64cfa7b4f6"
+                "sha256:499bd272ae65e6df286294e10377cd06f04e261e61d9861fc4b9374678cb19ab",
+                "sha256:d0d3850f183ff86830bbf76c3e47ae2c18a13e5c9b71175c63336d3ca2f8fa97"
             ],
             "index": "pypi",
-            "version": "==0.2.6"
+            "version": "==0.6.1"
         },
         "prettytable": {
             "hashes": [

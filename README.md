@@ -12,9 +12,9 @@ Running this app requires these environment variables to be set:
 | KEYCLOAK_SERVER        | URL to the keycloak server to use                                   |
 | WEBSOCKET_URL          | URL to the websocket to listen to                                   |
 | WEBHOOK_TOKEN          | Token to use to authenticate with websocket                         |
-| ORIGO_CLIENT_SECRET    | Client Secret of the keycloak client to use                         |
-| ORIGO_CLIENT_ID        | Client ID of the keycloak client to use                             |
-| ORIGO_ENVIRONMENT      | Which environment to run on(dev/prod)                               |
+| OKDATA_CLIENT_SECRET   | Client Secret of the keycloak client to use                         |
+| OKDATA_CLIENT_ID       | Client ID of the keycloak client to use                             |
+| OKDATA_ENVIRONMENT     | Which environment to run on(dev/prod)                               |
 | KEYCLOAK_REALM         | Name of the keycloak realm to use                                   |
 | AWS_XRAY_SDK_ENABLED   | Whether to use AWS XRAY SDK (true/false)                            |
 | EVENT_INTERVAL_SECONDS | Number of seconds to wait before sending an event                   |
@@ -56,7 +56,7 @@ These metrics are:
 This application uses the following dependencies:
 - [Pipenv](https://github.com/pypa/pipenv)
 - [aws-xray-sdk](https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-python.html)
-- [origo-sdk-python](https://github.com/oslokommune/origo-sdk-python)
+- [okdata-sdk-python](https://github.com/oslokommune/okdata-sdk-python)
 - [websocket_client](https://github.com/websocket-client/websocket-client)
 - [prometheus-client](https://github.com/prometheus/client_python)
 - [flake8](https://pypi.org/project/flake8/)

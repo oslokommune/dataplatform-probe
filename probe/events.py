@@ -83,7 +83,7 @@ def post_event(dataset_id, version, event_poster):
     log.info(f"Sending event with ID {seqno}")
 
     try:
-        event_poster.post_event(event, dataset_id, version)
+        event_poster.post_event(event, dataset_id, version, retries=3)
         event_post_count.inc()
 
         with _events_posted_lock:

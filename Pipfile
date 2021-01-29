@@ -9,7 +9,7 @@ black = "*"
 
 [packages]
 aws-xray-sdk = "==2.6.0"
-origo-sdk-python = "==0.2.6"
+okdata-sdk = "==0.6.1"
 prometheus-client = "==0.8.0"
 websockets = "==8.1"
 

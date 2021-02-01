@@ -3,8 +3,8 @@ import os
 import threading
 
 from aws_xray_sdk.core import xray_recorder
-from origo.config import Config
-from origo.event.post_event import PostEvent
+from okdata.sdk.config import Config
+from okdata.sdk.event.post_event import PostEvent
 from prometheus_client import start_http_server
 
 from events import post_event

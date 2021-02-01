@@ -10,8 +10,8 @@ black = "*"
 [packages]
 aws-xray-sdk = "==2.6.0"
 origo-sdk-python = "==0.2.6"
-websocket-client = "==0.57.0"
 prometheus-client = "==0.8.0"
+websockets = "==8.1"
 
 [requires]
 python_version = "3.8"

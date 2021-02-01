@@ -1,16 +1,12 @@
 import json
-import os
 from datetime import datetime, timezone
 
+import websockets
 from prometheus_client import Counter
-from websocket import create_connection, WebSocketException
 
 from events import mark_event_as_seen
-from globals import app_id, event_interval
+from globals import app_id
 from utils import log, EventPrinter, get_metric_name
-
-webhook_token = os.getenv("WEBHOOK_TOKEN")
-websocket_base_url = os.getenv("WEBSOCKET_URL")
 
 received_event_count = Counter(
     name=get_metric_name("events_received"), documentation="Number of received events"
@@ -21,17 +17,13 @@ wrong_appid_count = Counter(
     documentation="Number of events received with a mismatched app id",
 )
 
-
 printer = EventPrinter()
 
 
-def _listen(ws, dataset_id):
+async def _listen(websocket):
     while True:
-        response = ws.recv()
+        response = await websocket.recv()
         time_received = datetime.now(timezone.utc)
-
-        if not response:
-            raise WebSocketException("Unknown opcode from websocket `recv`.")
 
         result = json.loads(response)
         seqno = result["seqno"]
@@ -54,20 +46,15 @@ def _listen(ws, dataset_id):
             wrong_appid_count.inc()
 
 
-def listen_to_websocket(dataset_id):
-    websocket_url = (
-        f"{websocket_base_url}?dataset_id={dataset_id}&webhook_token={webhook_token}"
-    )
-
-    log.info(f"Attempting to listen to websocket at {websocket_base_url}")
+async def listen_to_websocket(uri):
+    log.info(f"Attempting to listen to websocket at {uri}")
 
     while True:
         try:
             log.info("Establishing connection to websocket...")
-            ws = create_connection(websocket_url, timeout=event_interval + 60)
-            _listen(ws, dataset_id)
-        except WebSocketException as e:
+            async with websockets.connect(uri) as websocket:
+                log.info("Connection established")
+                await _listen(websocket)
+        except websockets.exceptions.WebSocketException as e:
             log.error(f"Exception received from websocket: {e}")
-        finally:
-            log.info("Closing the websocket")
-            ws.close()
+            log.info("Connection closed")

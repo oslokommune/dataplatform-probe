@@ -11,6 +11,7 @@ black = "*"
 aws-xray-sdk = "==2.6.0"
 okdata-sdk = "==0.6.1"
 prometheus-client = "==0.8.0"
+pyjwt = "==1.7.1"
 websockets = "==8.1"
 
 [requires]

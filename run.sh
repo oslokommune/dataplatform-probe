@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-export AUTHORIZER_API=https://api.data-dev.oslo.systems/simple-dataset-authorizer
 export KEYCLOAK_SERVER=https://login-test.oslo.kommune.no
 export WEBSOCKET_URL=wss://ws.data-dev.oslo.systems/event-data-subscription
 export WEBHOOK_TOKEN=XXXXXXXXX

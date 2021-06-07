@@ -80,4 +80,4 @@ jobs:
 
       - name: Deploy to aws fargate dev
         run: |
-          aws ecs update-service --force-new-deployment --service devportal-frontend --cluster dataplatform-probe --region eu-west-1
+          aws ecs update-service --force-new-deployment --service probe --cluster dataplatform-probe --region eu-west-1

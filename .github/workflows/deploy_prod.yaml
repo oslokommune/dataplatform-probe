@@ -18,4 +18,4 @@ jobs:
 
       - name: Deploy to aws fargate prod
         run: |
-          aws ecs update-service --force-new-deployment --service devportal-frontend --cluster dataplatform-probe --region eu-west
+          aws ecs update-service --force-new-deployment --service probe --cluster dataplatform-probe --region eu-west

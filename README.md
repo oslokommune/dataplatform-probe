@@ -8,7 +8,6 @@ Running this app requires these environment variables to be set:
 
 | Name                   | Description                                                         |
 | ---------------------- | ------------------------------------------------------------------- |
-| AUTHORIZER_API         | URL to Authorizer Api                                               |
 | KEYCLOAK_SERVER        | URL to the keycloak server to use                                   |
 | WEBSOCKET_URL          | URL to the websocket to listen to                                   |
 | WEBHOOK_TOKEN          | Token to use to authenticate with websocket                         |

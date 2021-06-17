@@ -44,6 +44,15 @@ stop-local-env:
 .PHONY: run
 run: setup-local-env
 	LOCAL_RUN=true \
+	LOCAL_SERVICES_ONLY=true \
+	PROBE_DATASET_ID=abc123 \
+	PROBE_WEBHOOK_TOKEN=abc123 \
+	$(BUILD_VENV)/bin/python -m probe
+
+.PHONY: run-dp
+run-dp: setup-local-env
+	LOCAL_RUN=true \
+	LOCAL_SERVICES_ONLY=false \
 	$(BUILD_VENV)/bin/python -m probe
 
 

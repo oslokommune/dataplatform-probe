@@ -54,18 +54,20 @@ $ make run # Run application (as described below)
 
 By issuing the command `make run`, a local environment is configured comprising of the following services (see `local-compose.yaml`):
 
-* [Prometheus](https://hub.docker.com/r/prom/prometheus)
-* [Grafana](https://hub.docker.com/r/grafana/grafana) (including [tns-db](https://hub.docker.com/r/grafana/tns-db) and provisioned datasource and dashboard for the application)
-* A websocket server that simply echoes received events to connected clients (emulating [event-data-subscription](https://github.com/oslokommune/event-data-subscription))
-* A web server which accepts post requests for events (emulating [okdata-event-collector](https://github.com/oslokommune/okdata-event-collector))
+| Service | Description | |
+| --- | --- | --- |
+| [Prometheus](https://hub.docker.com/r/prom/prometheus) | Monitoring and alerting toolkit. | `http://localhost:9090` |
+| [Grafana](https://hub.docker.com/r/grafana/grafana) (+ [tns-db](https://hub.docker.com/r/grafana/tns-db)) | Observability and data visualization platform. Includes a provisioned datasource and dashboard for the application. Default username/password: `admin`/`admin`. | `http://localhost:3000` |
+| WebSocket server | Simply echoes received events to connected clients (emulating [event-data-subscription](https://github.com/oslokommune/event-data-subscription).) | `ws://localhost:8765` |
+| HTTP server | Accepts post requests for events (emulating [okdata-event-collector](https://github.com/oslokommune/okdata-event-collector)). By default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of received events, and simply "losing" ~5 percent (configurable at `http://localhost:8081/config/` by passing query arguments, e.g. `?ADD_LATENCY_PERCENT=15`). | `http://localhost:8081` |
 
-By specifying `LOCAL_SERVICES_ONLY=true` when running the application (e.g. `LOCAL_SERVICES_ONLY=true make run`), the application bypasses connections to `event-collector`/ `event-data-subscription` and is instead configured to use the "dummy" WebSocket/HTTP servers. 
+The `run` target sets `RUN_LOCAL=true` and `LOCAL_SERVICES_ONLY=true`. While the first environment variable enables "debug mode", the latter tells the application to bypasss connections to `event-collector`/`event-data-subscription` and instead use the "dummy" WebSocket/HTTP servers mentioned above. Also: When running the application locally, an additonal task is created which simply prints a table of all tracked events every 30 seconds.
 
-The HTTP server is by default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of received events, and simply "losing" ~5 percent (configurable at `http://localhost:8081/config/` by passing query arguments, e.g. `?ADD_LATENCY_PERCENT=15`). Also: When running the application locally, an additonal task is created which simply prints a table of all tracked events every 30 seconds.
+To test against `event-collector`/`event-data-subscription` "for real" (while stilling running the application locally), set the appropriate environment variables listed above (i.e. credentials, dataset id, webhook token) and use `make run-dp`.
 
-To "tail" the service logs:
 ```sh
-$ docker-compose -f local-compose.yaml logs --follow --tail=10
+$ docker-compose -f local-compose.yaml ps # Check services
+$ docker-compose -f local-compose.yaml logs --follow --tail=10 # Tail service logs
 ```
 
 ## Deploy

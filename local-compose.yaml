@@ -5,7 +5,7 @@ networks:
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: "prom/prometheus:${PROMETHEUS_TAG:-v2.22.1}" # Reflect version in dev/prod by default
     volumes:
       - ./local/prometheus/:/etc/prometheus/
     command:
@@ -19,7 +19,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   grafana:
-    image: grafana/grafana:latest
+    image: "grafana/grafana:${GRAFANA_TAG:-7.4.1}" # Reflect version in dev/prod by default
     volumes:
       - ./local/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/default.yaml
       - ./local/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/default.yaml

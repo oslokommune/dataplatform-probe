@@ -19,11 +19,13 @@
   "panels": [
     {
       "datasource": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -33,38 +35,23 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "none"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Lost"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 6,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 15,
+      "id": 2,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
+        "justifyMode": "center",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -72,33 +59,33 @@
           "fields": "",
           "values": false
         },
-        "text": {},
+        "text": {
+          "titleSize": 15,
+          "valueSize": 75
+        },
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.0",
+      "pluginVersion": "7.4.1",
       "targets": [
         {
-          "exemplar": true,
           "expr": "probe_events_posted_total",
-          "hide": false,
           "interval": "",
           "legendFormat": "Posted",
-          "refId": "B"
+          "refId": "A"
         },
         {
-          "exemplar": false,
           "expr": "probe_events_received_total",
           "hide": false,
           "interval": "",
           "legendFormat": "Received",
-          "refId": "C"
+          "refId": "B"
         },
         {
-          "exemplar": true,
           "expr": "probe_events_lost_total",
+          "hide": false,
           "interval": "",
           "legendFormat": "Lost",
-          "refId": "A"
+          "refId": "C"
         }
       ],
       "title": "Events (totals)",
@@ -106,13 +93,14 @@
       "type": "stat"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": null,
       "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -122,7 +110,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -130,9 +119,9 @@
         "h": 5,
         "w": 8,
         "x": 0,
-        "y": 3
+        "y": 6
       },
-      "id": 6,
+      "id": 3,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -148,44 +137,43 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.0",
+      "pluginVersion": "7.4.1",
       "targets": [
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_posted_total[1m]))",
-          "hide": false,
           "interval": "",
           "legendFormat": "1m",
-          "refId": "F"
+          "refId": "A"
         },
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_posted_total[3m]))",
+          "format": "time_series",
           "hide": false,
           "interval": "",
           "legendFormat": "3m",
-          "refId": "G"
+          "refId": "B"
         },
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_posted_total[10m]))",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
-          "refId": "H"
+          "refId": "C"
         }
       ],
-      "title": "Posted",
+      "title": "Events posted",
       "transparent": true,
       "type": "stat"
     },
     {
       "datasource": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -193,13 +181,10 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -207,13 +192,13 @@
         "h": 5,
         "w": 8,
         "x": 8,
-        "y": 3
+        "y": 6
       },
-      "id": 17,
+      "id": 4,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -225,25 +210,23 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.0",
+      "pluginVersion": "7.4.1",
       "targets": [
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_received_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_received_total[3m]))",
+          "format": "time_series",
           "hide": false,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_received_total[10m]))",
           "hide": false,
           "interval": "",
@@ -251,17 +234,19 @@
           "refId": "C"
         }
       ],
-      "title": "Received",
+      "title": "Events received",
       "transparent": true,
       "type": "stat"
     },
     {
       "datasource": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -271,7 +256,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -279,13 +265,13 @@
         "h": 5,
         "w": 8,
         "x": 16,
-        "y": 3
+        "y": 6
       },
-      "id": 18,
+      "id": 5,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -297,25 +283,23 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.0",
+      "pluginVersion": "7.4.1",
       "targets": [
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_lost_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_lost_total[3m]))",
+          "format": "time_series",
           "hide": false,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "exemplar": true,
           "expr": "round(increase(probe_events_lost_total[10m]))",
           "hide": false,
           "interval": "",
@@ -323,304 +307,334 @@
           "refId": "C"
         }
       ],
-      "title": "Lost",
+      "title": "Events lost",
       "transparent": true,
       "type": "stat"
     },
     {
-      "datasource": "Prometheus",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
+          "color": {},
+          "custom": {},
           "thresholds": {
             "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+            "steps": []
+          },
+          "unit": "short"
         },
         "overrides": []
       },
+      "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 11
       },
-      "id": 4,
+      "hiddenSeries": false,
+      "id": 7,
       "interval": "10",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
+      "legend": {
+        "alignAsTable": false,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
       },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "exemplar": true,
           "expr": "rate(probe_events_posted_total[1m]) * 60",
-          "hide": false,
           "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "1m",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(probe_events_posted_total[3m]) * 60",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "3m",
           "refId": "A"
         },
         {
-          "exemplar": true,
+          "expr": "rate(probe_events_posted_total[3m]) * 60",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "3m",
+          "refId": "B"
+        },
+        {
           "expr": "rate(probe_events_posted_total[10m]) * 60",
           "hide": false,
           "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "10m",
           "refId": "C"
         }
       ],
-      "title": "Events sent / min",
-      "type": "timeseries"
+      "thresholds": [
+        {
+          "$$hashKey": "object:91",
+          "colorMode": "warning",
+          "fill": true,
+          "line": false,
+          "op": "lt",
+          "value": 5,
+          "yaxis": "left"
+        },
+        {
+          "$$hashKey": "object:97",
+          "colorMode": "critical",
+          "fill": true,
+          "line": false,
+          "op": "lt",
+          "value": 3,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Events posted / min",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:385",
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:386",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "datasource": "Prometheus",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "custom": {}
         },
         "overrides": []
       },
+      "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 11
       },
-      "id": 13,
+      "hiddenSeries": false,
+      "id": 8,
       "interval": "10",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
+      "legend": {
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
       },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "exemplar": true,
           "expr": "rate(probe_events_received_total[1m]) * 60",
-          "hide": false,
           "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "1m",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(probe_events_received_total[3m]) * 60",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "3m",
           "refId": "A"
         },
         {
-          "exemplar": true,
+          "expr": "rate(probe_events_received_total[3m]) * 60",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "3m",
+          "refId": "B"
+        },
+        {
           "expr": "rate(probe_events_received_total[10m]) * 60",
           "hide": false,
           "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "10m",
           "refId": "C"
         }
       ],
+      "thresholds": [
+        {
+          "$$hashKey": "object:182",
+          "colorMode": "critical",
+          "fill": true,
+          "line": false,
+          "op": "gt",
+          "value": null,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
       "title": "Events received / min",
-      "type": "timeseries"
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:385",
+          "decimals": null,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:386",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "datasource": "Prometheus",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "decimals": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 3,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 3,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
+          "custom": {},
           "unit": "percent"
         },
         "overrides": []
       },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 11,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 21
       },
-      "id": 8,
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
+        "alertThreshold": true
       },
-      "pluginVersion": "8.0.0",
+      "percentage": false,
+      "pluginVersion": "7.4.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "exemplar": true,
           "expr": "probe_events_missing_1m_share",
-          "hide": false,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "exemplar": true,
           "expr": "probe_events_missing_3m_share",
           "hide": false,
           "interval": "",
@@ -628,7 +642,6 @@
           "refId": "B"
         },
         {
-          "exemplar": true,
           "expr": "probe_events_missing_10m_share",
           "hide": false,
           "interval": "",
@@ -636,235 +649,308 @@
           "refId": "C"
         }
       ],
+      "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Events missing (share)",
-      "type": "timeseries"
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:397",
+          "decimals": 0,
+          "format": "percent",
+          "label": "",
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:398",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "datasource": "Prometheus",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "decimals": null,
+      "description": "Considered *lost* after being missing for a configured amount of time.",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "custom": {},
+          "unit": "none"
         },
         "overrides": []
       },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 11,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 21
       },
-      "id": 10,
+      "hiddenSeries": false,
+      "id": 11,
+      "legend": {
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
+        "alertThreshold": true
       },
+      "percentage": false,
+      "pluginVersion": "7.4.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "exemplar": true,
           "expr": "rate(probe_events_lost_total[1m]) * 60",
-          "hide": false,
           "interval": "",
           "legendFormat": "1m",
-          "refId": "C"
+          "refId": "A"
         },
         {
-          "exemplar": true,
-          "expr": "rate(probe_events_lost_total[3m]) * 60",
+          "expr": "rate(probe_events_lost_total[3m]) * 60  ",
           "hide": false,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "exemplar": true,
-          "expr": "rate(probe_events_lost_total[10m]) * 600",
+          "expr": "rate(probe_events_lost_total[10m]) * 60",
+          "hide": false,
           "interval": "",
           "legendFormat": "10m",
-          "refId": "A"
+          "refId": "C"
         },
         {
-          "exemplar": true,
-          "expr": "rate(probe_events_lost_total[1h]) * 600",
+          "expr": "rate(probe_events_lost_total[1h]) * 60",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
           "refId": "D"
         }
       ],
-      "title": "Events lost / min",
-      "type": "timeseries"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Events lost",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:397",
+          "decimals": 0,
+          "format": "none",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:398",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "datasource": "Prometheus",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 6,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
+          "custom": {},
           "unit": "s"
         },
         "overrides": []
       },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 11,
-        "w": 17,
+        "h": 8,
+        "w": 18,
         "x": 0,
         "y": 29
       },
-      "id": 2,
+      "hiddenSeries": false,
+      "id": 13,
       "interval": "10",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
       },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "exemplar": true,
           "expr": "probe_event_latency",
           "interval": "",
           "legendFormat": "Latency",
           "refId": "A"
         },
         {
-          "exemplar": true,
           "expr": "avg_over_time(probe_event_latency[10m])",
           "hide": false,
           "interval": "",
-          "legendFormat": "Average latency",
+          "legendFormat": "Average [10m]",
           "refId": "B"
         },
         {
-          "exemplar": true,
           "expr": "max_over_time(probe_event_latency[10m])",
           "hide": false,
           "interval": "",
-          "legendFormat": "Max latency",
+          "legendFormat": "Max [10m]",
           "refId": "C"
         },
         {
-          "exemplar": true,
           "expr": "quantile_over_time(0.90, probe_event_latency[10m])",
           "hide": false,
           "interval": "",
-          "legendFormat": "90% latency",
+          "legendFormat": "90% quantile [10m]",
           "refId": "D"
         }
       ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
       "title": "Event latency",
-      "type": "timeseries"
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:636",
+          "decimals": 1,
+          "format": "s",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:637",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "datasource": "Prometheus",
+      "datasource": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "custom": {
-            "align": "left",
-            "displayMode": "auto",
-            "filterable": true
+            "align": null,
+            "filterable": false
           },
           "mappings": [],
           "thresholds": {
@@ -884,13 +970,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 11,
-        "w": 7,
-        "x": 17,
+        "h": 8,
+        "w": 6,
+        "x": 18,
         "y": 29
       },
-      "id": 12,
-      "interval": "10",
+      "id": 15,
       "options": {
         "showHeader": true,
         "sortBy": [
@@ -900,13 +985,12 @@
           }
         ]
       },
-      "pluginVersion": "8.0.0",
+      "pluginVersion": "7.4.1",
       "targets": [
         {
-          "exemplar": true,
           "expr": "probe_event_latency",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Latency",
           "refId": "A"
         }
       ],
@@ -914,8 +998,8 @@
       "type": "table"
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 30,
+  "refresh": "5s",
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -928,6 +1012,6 @@
   "timepicker": {},
   "timezone": "",
   "title": "dp-probe",
-  "uid": "a_Ia8C6Gk",
-  "version": 1
+  "uid": "MHnipxg7z",
+  "version": 4
 }

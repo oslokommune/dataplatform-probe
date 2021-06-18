@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 os.getenv("CLEAN_EVENTS_INTERVAL_SECONDS", 30)
             ),
             "PROBE_DATASET_ID": os.environ["PROBE_DATASET_ID"],
-            "PROBE_DATASET_VERSION": os.getenv("PROBE_DATASET_VERSION", 3),
+            "PROBE_DATASET_VERSION": os.getenv("PROBE_DATASET_VERSION", 1),
             "WEBSOCKET_BASE_URL": WEBSOCKET_BASE_URL,
             "PROBE_WEBHOOK_TOKEN": os.environ["PROBE_WEBHOOK_TOKEN"],
         },

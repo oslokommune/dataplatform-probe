@@ -94,29 +94,19 @@ class Probe(object):
                 event.state = EventState.PURGABLE
 
         # Update metrics for missing events
-        for metric_attr, duration in (
-            ("events_missing_1m_share", timedelta(minutes=1)),
-            ("events_missing_3m_share", timedelta(minutes=3)),
-            ("events_missing_10m_share", timedelta(minutes=10)),
+        for metric_attr, timestamp in (
+            ("events_missing_1m_share", (now - timedelta(minutes=1))),
+            ("events_missing_3m_share", (now - timedelta(minutes=3))),
+            ("events_missing_10m_share", (now - timedelta(minutes=10))),
         ):
-            events = self.get_events(duration)
+            events = self.get_events_sent_after(timestamp)
+            missing_events = [e for e in events if e.state != EventState.RECEIVED]
+            share_of_events_missing = len(missing_events) / len(events) * 100
             metric = getattr(self.metrics, metric_attr)
-            missing_events_count = len(
-                [e for e in events if not e.state == EventState.RECEIVED]
-            )
-            share_of_events_missing = missing_events_count / len(events) * 100
             metric.set(share_of_events_missing)
 
-    def get_events(self, timedelta=None):
-        if timedelta:
-            now = datetime.now(timezone.utc)
-
-            return [
-                event
-                for event in self.events.values()
-                if not now > (event.time_sent + timedelta)
-            ]
-        return self.events
+    def get_events_sent_after(self, timestamp):
+        return [e for e in self.events.values() if e.time_sent > timestamp]
 
     async def listener(self):
         websocket_uri = "{}?dataset_id={}&webhook_token={}".format(

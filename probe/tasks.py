@@ -63,10 +63,19 @@ async def clean_events(probe):
     while True:
         await asyncio.sleep(interval)
 
-        # Purge old events
-        purgable_events = [
-            e for e in probe.events.values() if e.state == EventState.PURGABLE
-        ]
+        now = datetime.now(timezone.utc)
+        dismiss_event_timeout = timedelta(
+            seconds=probe.config["DISMISS_EVENT_TIMEOUT_SECONDS"]
+        )
+        purgable_events = []
+
+        # Dismiss old events and count missing events as lost
+        for event in probe.events.values():
+            if now > event.time_sent + dismiss_event_timeout:
+                if event.state != EventState.RECEIVED:
+                    probe.metrics.events_lost.inc()
+
+                purgable_events.append(event)
 
         for event in purgable_events:
             probe.events.pop(event.seqno, None)

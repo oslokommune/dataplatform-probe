@@ -90,10 +90,11 @@ if __name__ == "__main__":
             "POST_EVENT_INTERVAL_SECONDS": int(
                 os.getenv("POST_EVENT_INTERVAL_SECONDS", 10)
             ),
-            "MARK_EVENT_LOST_TIMEOUT_SECONDS": (5 * 60),
-            "PURGE_EVENT_TIMEOUT_SECONDS": (15 * 60),
+            "DISMISS_EVENT_TIMEOUT_SECONDS": int(
+                os.getenv("DISMISS_EVENT_TIMEOUT_SECONDS", 60 * 60 * 24)
+            ),
             "CLEAN_EVENTS_INTERVAL_SECONDS": int(
-                os.getenv("CLEAN_EVENTS_INTERVAL_SECONDS", 30)
+                os.getenv("CLEAN_EVENTS_INTERVAL_SECONDS", 60 * 5)
             ),
             "PROBE_DATASET_ID": os.environ["PROBE_DATASET_ID"],
             "PROBE_DATASET_VERSION": os.getenv("PROBE_DATASET_VERSION", 1),

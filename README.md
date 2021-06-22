@@ -25,16 +25,15 @@ metrics to Prometheus regarding pipeline latency through a http server on port `
 
 The app is configurable by setting the following environment variables (* = no default, i.e. required):
 
-| Name                              | Description                                                  | Default   |
-|-----------------------------------|--------------------------------------------------------------|-----------|
-| `WEBSOCKET_URL`*                  | URL to the websocket to listen to                            |           |
-| `PROBE_WEBHOOK_TOKEN`*            | Token to use to authenticate with websocket                  |           |
-| `PROBE_DATASET_ID`*               | Dataset ID                                                   |           |
-| `PROBE_DATASET_VERSION`           | Dataset version                                              | `1`       |
-| `POST_EVENT_INTERVAL_SECONDS`     | Interval in seconds between posting events                   | `10`      |
-| `MARK_EVENT_LOST_TIMEOUT_SECONDS` | Number of seconds after which an event is considered lost    | `5 * 60`  |
-| `PURGE_EVENT_TIMEOUT_SECONDS`     | Number of seconds after which an event is purged from memory | `15 * 60` |
-| `CLEAN_EVENTS_INTERVAL_SECONDS`   | Interval in seconds between cleaning the event list          | `30`      |
+| Name                            | Description                                                 | Default        |
+|---------------------------------|-------------------------------------------------------------|----------------|
+| `WEBSOCKET_URL`*                | URL to the websocket to listen to                           |                |
+| `PROBE_WEBHOOK_TOKEN`*          | Token to use to authenticate with websocket                 |                |
+| `PROBE_DATASET_ID`*             | Dataset ID                                                  |                |
+| `PROBE_DATASET_VERSION`         | Dataset version                                             | `1`            |
+| `POST_EVENT_INTERVAL_SECONDS`   | Interval in seconds between posting events                  | `10`           |
+| `DISMISS_EVENT_TIMEOUT_SECONDS` | Seconds after which an event is removed and considered lost | `60 * 60 * 24` |
+| `CLEAN_EVENTS_INTERVAL_SECONDS` | Interval in seconds between cleaning the event list         | `60 * 5`       |
 
 In addition, `OKDATA_CLIENT_ID`, `OKDATA_CLIENT_SECRET`, and `OKDATA_ENVIRONMENT`, must also be set when deploying.
 

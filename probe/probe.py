@@ -78,20 +78,6 @@ class Probe(object):
 
     def update_event_states(self):
         now = datetime.now(timezone.utc)
-        consider_lost_timeout = timedelta(
-            seconds=self.config["MARK_EVENT_LOST_TIMEOUT_SECONDS"]
-        )
-        purgable_timeout = timedelta(seconds=self.config["PURGE_EVENT_TIMEOUT_SECONDS"])
-
-        for event in self.events.values():
-            if (event.state == EventState.PENDING) and (
-                now > (event.time_sent + consider_lost_timeout)
-            ):
-                event.state = EventState.LOST
-                self.metrics.events_lost.inc()
-
-            if now > event.time_sent + purgable_timeout:
-                event.state = EventState.PURGABLE
 
         # Update metrics for missing events
         for metric_attr, timestamp in (

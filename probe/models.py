@@ -7,8 +7,6 @@ class EventState(str, Enum):
     PENDING = "pending"
     RECEIVED = "received"
     ERROR = "error"
-    LOST = "lost"
-    PURGABLE = "purgable"
 
 
 @dataclass

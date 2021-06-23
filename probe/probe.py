@@ -25,6 +25,7 @@ class Probe(object):
         self.counter = count(start=1)
         self.events = {}
         self.metrics = Metrics()
+        self.connected = False
         self.loop = asyncio.get_event_loop()
 
     def on_event_post(self, event: Event):
@@ -100,18 +101,43 @@ class Probe(object):
             self.config["PROBE_DATASET_ID"],
             self.config["PROBE_WEBHOOK_TOKEN"],
         )
+        attempts = 0
+        backoff_factor = 0.5
+        max_connection_attempts = 10
 
         while True:
             try:
-                logger.info(f"Connecting to {websocket_uri}")
+                attempts += 1
+                logger.info("Connecting to {}, dataset_id={}, attempt={}".format(
+                    self.config["WEBSOCKET_BASE_URL"],
+                    self.config["PROBE_DATASET_ID"],
+                    attempts,
+                ))
                 async with websockets.connect(websocket_uri) as websocket:
                     logger.info("Connected to websocket endpoint")
+                    attempts = 0
+                    self.connected = True
+                    self.metrics.connection_state.state("connected")
                     while True:
                         response = await websocket.recv()
                         self.on_event_received(response)
             except websockets.exceptions.WebSocketException as e:
                 logger.error(f"Exception received from websocket: {e}")
                 logger.info("Connection closed")
+            except OSError as e:
+                # Treat as retriable (?)
+                #  https://github.com/aaugustin/websockets/issues/593
+                #  https://bugs.python.org/issue29980
+                logger.error(f"Connection failed: {e}")
+
+            self.connected = False
+            self.metrics.connection_state.state("disconnected")
+
+            await asyncio.sleep(backoff_factor * attempts)
+
+            if attempts == max_connection_attempts:
+                logger.warning("Exhausted all connection retry attempts")
+                break
 
     def run(self):
         logger.info("Running probe")

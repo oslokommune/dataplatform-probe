@@ -82,8 +82,8 @@ class Probe(object):
         # Update metrics for missing events
         for metric_attr, timestamp in (
             ("events_missing_1m_share", (now - timedelta(minutes=1))),
-            ("events_missing_3m_share", (now - timedelta(minutes=3))),
             ("events_missing_10m_share", (now - timedelta(minutes=10))),
+            ("events_missing_1h_share", (now - timedelta(hours=1))),
         ):
             events = self.get_events_sent_after(timestamp)
             missing_events = [e for e in events if e.state != EventState.RECEIVED]

@@ -635,18 +635,18 @@
           "refId": "A"
         },
         {
-          "expr": "probe_events_missing_3m_share",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "3m",
-          "refId": "B"
-        },
-        {
           "expr": "probe_events_missing_10m_share",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
           "refId": "C"
+        },
+        {
+          "expr": "probe_events_missing_1h_share",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "1h",
+          "refId": "B"
         }
       ],
       "thresholds": [],

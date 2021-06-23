@@ -24,13 +24,13 @@ class Metrics:
         name="probe_events_missing_1m_share",
         documentation="Share of events missing last 1 minute",
     )
-    events_missing_3m_share = Gauge(
-        name="probe_events_missing_3m_share",
-        documentation="Share of events missing last 3 minutes",
-    )
     events_missing_10m_share = Gauge(
         name="probe_events_missing_10m_share",
         documentation="Share of events missing last 10 minutes",
+    )
+    events_missing_1h_share = Gauge(
+        name="probe_events_missing_1h_share",
+        documentation="Share of events missing last 1 hour",
     )
 
     events_duplicates: Counter = Counter(

@@ -15,8 +15,8 @@ metrics to Prometheus regarding pipeline latency through a http server on port `
 | `probe_event_post_errors`        | `Counter` | Number of errors that occurred while posting events. |
 | `probe_event_latency`            | `Gauge`   | The latency of the latest received event.            |
 | `probe_events_missing_1m_share`  | `Gauge`   | Share of events missing last minute.                 |
-| `probe_events_missing_3m_share`  | `Gauge`   | Share of events missing last 3 minutes.              |
 | `probe_events_missing_10m_share` | `Gauge`   | Share of events missing last 10 minutes.             |
+| `probe_events_missing_1h_share`  | `Gauge`   | Share of events missing last hour.                   |
 | `probe_events_duplicates`        | `Counter` | Number of duplicates received.                       |
 | `probe_wrong_appid`              | `Counter` | Number of events received with a mismatched app id.  |
 

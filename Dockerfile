@@ -1,11 +1,12 @@
 FROM python:3.8
-RUN pip install pipenv
 
 WORKDIR /usr/src/app/workdir
-COPY Pipfile ./
-COPY Pipfile.lock ./
-COPY resources ./resources
-RUN pipenv install --deploy --ignore-pipfile
+COPY requirements.txt ./
+COPY requirements-dev.txt ./
+ENV VIRTUAL_ENV=/opt/.venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN pip install -r requirements.txt
 
 COPY probe ./probe
 
@@ -15,4 +16,4 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 EXPOSE 8000
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["pipenv", "run", "app"]
+CMD ["python", "-m", "probe"]

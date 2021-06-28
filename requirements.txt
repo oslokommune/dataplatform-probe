@@ -1,4 +1,6 @@
 aws-xray-sdk
 okdata-aws
 prometheus-client
+requests
+tabulate
 websockets

@@ -3,6 +3,8 @@ import logging
 from threading import Thread
 from datetime import datetime, timedelta, timezone
 
+from tabulate import tabulate
+
 from .models import Event, EventState
 
 logger = logging.getLogger(__name__)
@@ -81,3 +83,31 @@ async def clean_events(probe):
             probe.events.pop(event.seqno, None)
 
         logger.info(f"Cleaned events, removed={len(purgable_events)}")
+
+
+async def print_events(probe, interval):
+    def since_prev_diff(event):
+        previous_event = probe.events.get(event.seqno - 1)
+        if not previous_event:
+            return None
+        return (event.time_sent - previous_event.time_sent).total_seconds()
+
+    headers = ["#", "State", "TX", "RX", "Latency", "Age", "Diff. prev."]
+
+    while True:
+        await asyncio.sleep(interval)
+
+        rows = [
+            [
+                seqno,
+                e.state.upper(),
+                e.time_sent,
+                e.time_received,
+                e.latency,
+                e.since_sent.total_seconds(),
+                since_prev_diff(e),
+            ]
+            for seqno, e in probe.events.items()
+        ]
+
+        print(tabulate(rows, headers=headers))

@@ -11,7 +11,6 @@ init: $(BUILD_VENV)
 $(BUILD_VENV):
 	$(GLOBAL_PY) -m venv $(BUILD_VENV)
 	$(BUILD_PY) -m pip install -U pip
-	$(BUILD_PY) -m pip install coloredlogs requests tabulate
 	$(BUILD_PY) -m pip install -r requirements.txt
 
 .PHONY: format
@@ -47,6 +46,8 @@ run: setup-local-env
 	LOCAL_SERVICES_ONLY=true \
 	PROBE_DATASET_ID=abc123 \
 	PROBE_WEBHOOK_TOKEN=abc123 \
+	DISMISS_EVENT_TIMEOUT_SECONDS=300 \
+	CLEAN_EVENTS_INTERVAL_SECONDS=60 \
 	$(BUILD_VENV)/bin/python -m probe
 
 .PHONY: run-dp

@@ -1,10 +1,13 @@
+import json
 import logging
 import os
 
+import requests
 from okdata.sdk.config import Config
 from okdata.sdk.event.post_event import PostEvent
 
 from .probe import Probe
+from .tasks import print_events
 
 LOCAL_RUN = os.getenv("LOCAL_RUN") == "true"
 LOCAL_SERVICES_ONLY = os.getenv("LOCAL_SERVICES_ONLY") == "true"
@@ -13,21 +16,13 @@ WEBSOCKET_BASE_URL = (
     "ws://localhost:8765" if LOCAL_SERVICES_ONLY else os.environ["WEBSOCKET_URL"]
 )
 
-if LOCAL_RUN:
-    import asyncio
-    import json
-
-    import coloredlogs
-    import requests
-    from tabulate import tabulate
-
 
 def configure_logger():
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
     if LOCAL_RUN:
-        coloredlogs.install(level="DEBUG", logger=logger)
+        logger.setLevel(level=logging.DEBUG)
         logging.getLogger("asyncio").setLevel(logging.ERROR)
         logging.getLogger("urllib3").setLevel(logging.ERROR)
         logging.getLogger("websockets").setLevel(logging.ERROR)
@@ -47,36 +42,6 @@ def configure_sdk():
     origo_config = Config()
     origo_config.config["cacheCredentials"] = True
     return PostEvent(config=origo_config)
-
-
-async def print_events(probe, interval):
-    def since_prev_diff(event):
-        previous_event = probe.events.get(event.seqno - 1)
-        if not previous_event:
-            return None
-        return (
-            (event.time_sent - previous_event.time_sent).total_seconds()
-        ) - probe.config["POST_EVENT_INTERVAL_SECONDS"]
-
-    headers = ["#", "State", "TX", "RX", "Latency", "Age", "Diff. prev."]
-
-    while True:
-        await asyncio.sleep(interval)
-
-        rows = [
-            [
-                seqno,
-                e.state.upper(),
-                e.time_sent,
-                e.time_received,
-                e.latency,
-                e.since_sent.total_seconds(),
-                since_prev_diff(e),
-            ]
-            for seqno, e in probe.events.items()
-        ]
-
-        print(tabulate(rows, headers=headers))
 
 
 if __name__ == "__main__":

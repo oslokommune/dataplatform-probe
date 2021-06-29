@@ -2,7 +2,6 @@ FROM python:3.8
 
 WORKDIR /usr/src/app/workdir
 COPY requirements.txt ./
-COPY requirements-dev.txt ./
 ENV VIRTUAL_ENV=/opt/.venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"

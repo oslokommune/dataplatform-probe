@@ -28,10 +28,10 @@ The app is configurable by setting the following environment variables (* = no d
 | Name                            | Description                                                 | Default        |
 |---------------------------------|-------------------------------------------------------------|----------------|
 | `WEBSOCKET_URL`*                | URL to the websocket to listen to                           |                |
-| `PROBE_WEBHOOK_TOKEN`*          | Token to use to authenticate with websocket                 |                |
-| `PROBE_DATASET_ID`*             | Dataset ID                                                  |                |
-| `PROBE_DATASET_VERSION`         | Dataset version                                             | `1`            |
-| `POST_EVENT_INTERVAL_SECONDS`   | Interval in seconds between posting events                  | `10`           |
+| `WEBHOOK_TOKEN`*                | Token to use to authenticate with websocket                 |                |
+| `DATASET_ID`*                   | Dataset ID                                                  |                |
+| `DATASET_VERSION`               | Dataset version                                             | `1`            |
+| `EVENT_INTERVAL_SECONDS`        | Interval in seconds between posting events                  | `10`           |
 | `DISMISS_EVENT_TIMEOUT_SECONDS` | Seconds after which an event is removed and considered lost | `60 * 60 * 24` |
 | `CLEAN_EVENTS_INTERVAL_SECONDS` | Interval in seconds between cleaning the event list         | `60 * 5`       |
 
@@ -72,7 +72,3 @@ To test against `event-collector`/`event-data-subscription` "for real" (while st
 $ docker-compose -f local-compose.yaml ps # Check services
 $ docker-compose -f local-compose.yaml logs --follow --tail=10 # Tail service logs
 ```
-
-## Deploy
-
-TODO

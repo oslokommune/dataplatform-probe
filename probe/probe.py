@@ -98,8 +98,8 @@ class Probe(object):
     async def listener(self):
         websocket_uri = "{}?dataset_id={}&webhook_token={}".format(
             self.config["WEBSOCKET_BASE_URL"],
-            self.config["PROBE_DATASET_ID"],
-            self.config["PROBE_WEBHOOK_TOKEN"],
+            self.config["DATASET_ID"],
+            self.config["WEBHOOK_TOKEN"],
         )
         attempts = 0
         backoff_factor = 0.5
@@ -108,11 +108,13 @@ class Probe(object):
         while True:
             try:
                 attempts += 1
-                logger.info("Connecting to {}, dataset_id={}, attempt={}".format(
-                    self.config["WEBSOCKET_BASE_URL"],
-                    self.config["PROBE_DATASET_ID"],
-                    attempts,
-                ))
+                logger.info(
+                    "Connecting to {}, dataset_id={}, attempt={}".format(
+                        self.config["WEBSOCKET_BASE_URL"],
+                        self.config["DATASET_ID"],
+                        attempts,
+                    )
+                )
                 async with websockets.connect(websocket_uri) as websocket:
                     logger.info("Connected to websocket endpoint")
                     attempts = 0

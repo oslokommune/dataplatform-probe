@@ -19,8 +19,8 @@ def _post_request(probe, event):
                 "seqno": event.seqno,
                 "time_sent": event.time_sent.isoformat(),
             },
-            probe.config["PROBE_DATASET_ID"],
-            probe.config["PROBE_DATASET_VERSION"],
+            probe.config["DATASET_ID"],
+            probe.config["DATASET_VERSION"],
             retries=3,
         )
 
@@ -34,7 +34,7 @@ def _post_request(probe, event):
 
 async def post_event(probe):
     drift = timedelta()
-    interval = int(probe.config["POST_EVENT_INTERVAL_SECONDS"])
+    interval = int(probe.config["EVENT_INTERVAL_SECONDS"])
 
     while True:
         # Create new event

@@ -52,19 +52,17 @@ if __name__ == "__main__":
     probe = Probe(
         sdk,
         {
-            "POST_EVENT_INTERVAL_SECONDS": int(
-                os.getenv("POST_EVENT_INTERVAL_SECONDS", 10)
-            ),
+            "EVENT_INTERVAL_SECONDS": int(os.getenv("EVENT_INTERVAL_SECONDS", 10)),
             "DISMISS_EVENT_TIMEOUT_SECONDS": int(
                 os.getenv("DISMISS_EVENT_TIMEOUT_SECONDS", 60 * 60 * 24)
             ),
             "CLEAN_EVENTS_INTERVAL_SECONDS": int(
                 os.getenv("CLEAN_EVENTS_INTERVAL_SECONDS", 60 * 5)
             ),
-            "PROBE_DATASET_ID": os.environ["PROBE_DATASET_ID"],
-            "PROBE_DATASET_VERSION": os.getenv("PROBE_DATASET_VERSION", 1),
+            "DATASET_ID": os.environ["DATASET_ID"],
+            "DATASET_VERSION": os.getenv("DATASET_VERSION", 1),
             "WEBSOCKET_BASE_URL": WEBSOCKET_BASE_URL,
-            "PROBE_WEBHOOK_TOKEN": os.environ["PROBE_WEBHOOK_TOKEN"],
+            "WEBHOOK_TOKEN": os.environ["WEBHOOK_TOKEN"],
         },
     )
 

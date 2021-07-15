@@ -17,6 +17,15 @@ jobs:
   push:
     name: Build and push image
     runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      checks: read
+      contents: write
+      deployments: write
+      packages: write
+      statuses: read
+      
     steps:
       - uses: actions/checkout@v2
 

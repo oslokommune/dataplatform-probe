@@ -34,9 +34,13 @@ def _post_request(probe, event):
 
 async def post_event(probe):
     interval = timedelta(seconds=int(probe.config["EVENT_INTERVAL_SECONDS"]))
-    next_send = datetime.now()
+    next_send = datetime.now() + timedelta(seconds=2)
 
     while True:
+        sleep_time = (next_send - datetime.now()).total_seconds()
+        logger.debug(f"Sleeping {sleep_time} seconds")
+        await asyncio.sleep(sleep_time)
+
         # Create new event
         event = Event(app_id=probe.app_id, seqno=next(probe.counter))
 
@@ -44,9 +48,6 @@ async def post_event(probe):
         Thread(target=_post_request, args=(probe, event)).start()
 
         next_send = next_send + interval
-        sleep_time = (next_send - datetime.now()).total_seconds()
-        logger.debug(f"Sleeping {sleep_time} seconds")
-        await asyncio.sleep(sleep_time)
 
 
 async def clean_events(probe):

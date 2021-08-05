@@ -44,8 +44,7 @@ async def post_event(probe):
         Thread(target=_post_request, args=(probe, event)).start()
 
         next_send = next_send + interval
-        sleep_time = next_send - datetime.now()
-        sleep_time = sleep_time.seconds + sleep_time.microseconds / 1000000.0
+        sleep_time = (next_send - datetime.now()).total_seconds()
         logger.debug(f"Sleeping {sleep_time} seconds")
         await asyncio.sleep(sleep_time)
 

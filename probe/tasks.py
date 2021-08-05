@@ -33,30 +33,21 @@ def _post_request(probe, event):
 
 
 async def post_event(probe):
-    drift = timedelta()
-    interval = int(probe.config["EVENT_INTERVAL_SECONDS"])
+    interval = timedelta(seconds=int(probe.config["EVENT_INTERVAL_SECONDS"]))
+    next_send = datetime.now()
 
     while True:
         # Create new event
         event = Event(app_id=probe.app_id, seqno=next(probe.counter))
-        previous_event = probe.events.get((event.seqno - 1))
-        now = datetime.now(timezone.utc)
-        sleep_time = interval
-
-        if previous_event:
-            previous_sent = previous_event.time_sent
-            drift = now - previous_sent
-            logger.debug(f"Diff previous: {drift}")
-            sleep_time = interval - drift.microseconds / 1000000.0
-
-        await asyncio.sleep(sleep_time)
 
         probe.on_event_post(event)
         Thread(target=_post_request, args=(probe, event)).start()
 
-        logger.debug(
-            "Periodic event emit, drift={}, slept={}".format(drift, sleep_time)
-        )
+        next_send = next_send + interval
+        sleep_time = next_send - datetime.now()
+        sleep_time = sleep_time.seconds + sleep_time.microseconds / 1000000.0
+        logger.debug(f"Sleeping {sleep_time} seconds")
+        await asyncio.sleep(sleep_time)
 
 
 async def clean_events(probe):

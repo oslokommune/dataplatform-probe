@@ -35,12 +35,12 @@ class Probe(object):
         logger.info(f"Event TX: {event}")
 
     def on_event_posted(self, event: Event):
-        self.metrics.events_posted.inc()
+        self.metrics.events_posted.labels(self.app_id).inc()
 
     def on_event_post_error(self, event: Event):
         event.state = EventState.ERROR
         logger.error(f"Event TX failed: {event}")
-        self.metrics.event_post_errors.inc()
+        self.metrics.event_post_errors.labels(self.app_id).inc()
 
     def on_event_received(self, event_data: str):
         now = datetime.now(timezone.utc)
@@ -52,7 +52,7 @@ class Probe(object):
                     event_data["seqno"], event_data["app_id"]
                 )
             )
-            self.metrics.wrong_appid_count.inc()
+            self.metrics.wrong_appid_count.labels(self.app_id).inc()
             return
 
         event = self.events.get(event_data["seqno"])
@@ -66,13 +66,13 @@ class Probe(object):
 
         # Count duplicated events
         if event.state == EventState.RECEIVED:
-            self.metrics.events_duplicates.inc()
+            self.metrics.events_duplicates.labels(self.app_id).inc()
 
         event.time_received = now
         event.state = EventState.RECEIVED
         logger.info(f"Event RX: {event} (latency={event.latency})")
         self.metrics.event_latency.set(event.latency)
-        self.metrics.events_received.inc()
+        self.metrics.events_received.labels(self.app_id).inc()
 
         # Update state for tracked events
         self.update_event_states()

@@ -65,7 +65,7 @@ async def clean_events(probe):
         for event in probe.events.values():
             if now > event.time_sent + dismiss_event_timeout:
                 if event.state != EventState.RECEIVED:
-                    probe.metrics.events_lost.inc()
+                    probe.metrics.events_lost.labels(probe.app_id).inc()
 
                 purgable_events.append(event)
 

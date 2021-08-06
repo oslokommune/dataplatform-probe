@@ -1,0 +1,47 @@
+version: "3.2"
+
+networks:
+  probe:
+
+services:
+  prometheus:
+    image: "prom/prometheus:${PROMETHEUS_TAG:-v2.22.1}" # Reflect version in dev/prod by default
+    volumes:
+      - ./local/prometheus/:/etc/prometheus/
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - 9090:9090
+    networks:
+      - probe
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: "grafana/grafana:${GRAFANA_TAG:-7.4.1}" # Reflect version in dev/prod by default
+    volumes:
+      - ./local/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/default.yaml
+      - ./local/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/default.yaml
+      - ./local/grafana/probe_dashboard.json:/etc/dashboards/probe/probe_dashboard.json
+    ports:
+      - 3000:3000
+    networks:
+      - probe
+
+  db:
+    image: grafana/tns-db:latest
+    ports:
+      - 8082:80
+    networks:
+      - probe
+
+  wsserver:
+    build: ./local/ws_server
+    ports:
+      - 8765:8765
+
+  httpserver:
+    build: ./local/http_server
+    ports:
+      - 8081:8081

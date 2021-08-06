@@ -1,0 +1,20 @@
+[tool.black]
+target-version = ['py37']
+# Keep exclude in sync with flake8 config in tox.ini
+exclude = '''
+/(
+      \.git
+    | \.tox
+    | __pycache__
+    | libs
+    | \*\.pyc
+    | \.cache
+    | \.eggs
+    | .*\.egg
+    | .*\.egg-info
+    | env
+    | venv
+    | \..*venv
+    | \.serverless
+)/
+'''

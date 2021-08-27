@@ -16,18 +16,13 @@ WEBSOCKET_BASE_URL = (
     "ws://localhost:8765" if LOCAL_SERVICES_ONLY else os.environ["WEBSOCKET_URL"]
 )
 
-
-def configure_logger():
+if LOCAL_RUN:
+    logging.basicConfig(level=logging.DEBUG)
+    logging.getLogger("asyncio").setLevel(logging.ERROR)
+    logging.getLogger("urllib3").setLevel(logging.ERROR)
+    logging.getLogger("websockets").setLevel(logging.ERROR)
+else:
     logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-
-    if LOCAL_RUN:
-        logger.setLevel(level=logging.DEBUG)
-        logging.getLogger("asyncio").setLevel(logging.ERROR)
-        logging.getLogger("urllib3").setLevel(logging.ERROR)
-        logging.getLogger("websockets").setLevel(logging.ERROR)
-
-    return logger
 
 
 def configure_sdk():
@@ -46,7 +41,6 @@ def configure_sdk():
 
 if __name__ == "__main__":
     # Configure and run probe
-    logger = configure_logger()
     sdk = configure_sdk()
 
     probe = Probe(

@@ -64,7 +64,7 @@ By issuing the command `make run`, a local environment is configured comprising 
 * **HTTP server** | `http://localhost:8081` \
   Accepts POST requests for events (emulating [okdata-event-collector](https://github.com/oslokommune/okdata-event-collector)). By default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of received events, and simply "losing" ~5 percent (configurable at `http://localhost:8081/config/` by passing query arguments, e.g. `?ADD_LATENCY_PERCENT=15`).
 
-The `run` target sets `RUN_LOCAL=true` and `LOCAL_SERVICES_ONLY=true`. While the first environment variable enables "debug mode", the latter tells the application to bypasss connections to `event-collector`/`event-data-subscription` and instead use the "dummy" WebSocket/HTTP servers mentioned above. Also: When running the application locally, an additonal task is created which simply prints a table of all tracked events every 30 seconds.
+The `run` target sets `LOCAL_RUN=true` and `LOCAL_SERVICES_ONLY=true`. While the first environment variable enables "debug mode", the latter tells the application to bypasss connections to `event-collector`/`event-data-subscription` and instead use the "dummy" WebSocket/HTTP servers mentioned above. Also: When running the application locally, an additonal task is created which simply prints a table of all tracked events every 30 seconds.
 
 To test against `event-collector`/`event-data-subscription` "for real" (while stilling running the application locally), set the appropriate environment variables listed above (i.e. credentials, dataset id, webhook token) and use `make run-dp`.
 

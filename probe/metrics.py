@@ -2,12 +2,6 @@ from prometheus_client import Counter, Enum, Gauge
 
 
 class Metrics:
-    connection_state: Enum = Enum(
-        name="probe_connection_state",
-        states=["connected", "disconnected"],
-        documentation="WebSocket connection state",
-    )
-
     events_posted: Counter = Counter(
         name="probe_events_posted",
         documentation="Number of events posted",

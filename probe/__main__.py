@@ -17,7 +17,10 @@ WEBSOCKET_BASE_URL = (
 )
 
 if LOCAL_RUN:
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s %(levelname)-8s %(message)s",
+    )
     logging.getLogger("asyncio").setLevel(logging.ERROR)
     logging.getLogger("urllib3").setLevel(logging.ERROR)
     logging.getLogger("websockets").setLevel(logging.ERROR)
@@ -56,6 +59,7 @@ if __name__ == "__main__":
             "DATASET_ID": os.environ["DATASET_ID"],
             "DATASET_VERSION": os.getenv("DATASET_VERSION", 1),
             "WEBSOCKET_BASE_URL": WEBSOCKET_BASE_URL,
+            "WEBSOCKET_LISTENERS": int(os.getenv("WEBSOCKET_LISTENERS", 2)),
             "WEBHOOK_TOKEN": os.environ["WEBHOOK_TOKEN"],
         },
     )

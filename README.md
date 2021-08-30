@@ -27,10 +27,11 @@ The app is configurable by setting the following environment variables (* = no d
 
 | Name                            | Description                                                 | Default        |
 |---------------------------------|-------------------------------------------------------------|----------------|
-| `WEBSOCKET_URL`*                | URL to the websocket to listen to                           |                |
-| `WEBHOOK_TOKEN`*                | Token to use to authenticate with websocket                 |                |
 | `DATASET_ID`*                   | Dataset ID                                                  |                |
 | `DATASET_VERSION`               | Dataset version                                             | `1`            |
+| `WEBHOOK_TOKEN`*                | Token to use to authenticate with websocket                 |                |
+| `WEBSOCKET_URL`*                | URL to the websocket to listen to                           |                |
+| `WEBSOCKET_LISTENERS`           | Number of event listeners (WebSocket handlers)              | `2`            |
 | `EVENT_INTERVAL_SECONDS`        | Interval in seconds between posting events                  | `10`           |
 | `DISMISS_EVENT_TIMEOUT_SECONDS` | Seconds after which an event is removed and considered lost | `60 * 60 * 24` |
 | `CLEAN_EVENTS_INTERVAL_SECONDS` | Interval in seconds between cleaning the event list         | `60 * 5`       |

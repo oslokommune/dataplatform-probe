@@ -2,6 +2,8 @@ from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass
 from enum import Enum
 
+from probe.listener import Listener
+
 
 class EventState(str, Enum):
     PENDING = "pending"
@@ -16,6 +18,7 @@ class Event:
     time_sent: datetime = None
     time_received: datetime = None
     state: EventState = None
+    received_by: Listener = None
 
     @property
     def latency(self):

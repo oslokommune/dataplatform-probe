@@ -9,7 +9,7 @@ listeners = []
 
 
 async def disturbinator(interval):
-    """ Close the oldest listener every n seconds. """
+    """Close the oldest listener every `interval` seconds."""
     while True:
         await asyncio.sleep(interval)
         if listeners:
@@ -18,7 +18,12 @@ async def disturbinator(interval):
             logger.info(f"Closed a listener, {len(listeners)} left")
 
 
-async def dispatcher(websocket, path):
+async def handler(websocket, path):
+    """WebSocket handler coroutine.
+
+    Broadcast received WebSocket messages to all connected
+    probe event listeners, as identified by the request path.
+    """
     if "dataset_id" in path:
         # Probe event listener
         listeners.insert(0, websocket)
@@ -39,7 +44,7 @@ async def dispatcher(websocket, path):
 
 
 logger.info("Starting websocket server...")
-start_server = websockets.serve(dispatcher, "0.0.0.0", 8765)
+start_server = websockets.serve(handler, "0.0.0.0", 8765)
 
 loop = asyncio.get_event_loop()
 loop.create_task(disturbinator(180))

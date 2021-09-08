@@ -15,7 +15,7 @@ from .tasks import clean_events, post_event
 logger = logging.getLogger(__name__)
 
 
-class Probe(object):
+class Probe:
     def __init__(self, sdk, config):
         logger.info("Initializing probe application")
 
@@ -36,7 +36,7 @@ class Probe(object):
                 ),
                 delay_start=(i * 15),
             )
-            for i in range(0, self.config["WEBSOCKET_LISTENERS"])
+            for i in range(self.config["WEBSOCKET_LISTENERS"])
         ]
         self.loop = asyncio.get_event_loop()
 
@@ -132,4 +132,6 @@ class Probe(object):
         self.loop.create_task(post_event(self))
         self.loop.create_task(clean_events(self))
 
-        self.loop.run_until_complete(asyncio.wait([l.start() for l in self.listeners]))
+        self.loop.run_until_complete(
+            asyncio.wait([listener.start() for listener in self.listeners])
+        )

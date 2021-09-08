@@ -7,7 +7,14 @@ from websockets.exceptions import WebSocketException
 logger = logging.getLogger(__name__)
 
 
-class Listener(object):
+class Listener:
+    """WebSocket client for receiving probe events.
+
+    Connect to the specified `websocket_uri` and pass all received
+    events to the parent `probe` application instance. Delay first
+    (re)connect if `delay_start` is specified.
+    """
+
     def __init__(
         self,
         probe,

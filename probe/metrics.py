@@ -1,4 +1,4 @@
-from prometheus_client import Counter, Enum, Gauge
+from prometheus_client import Counter, Gauge
 
 
 class Metrics:

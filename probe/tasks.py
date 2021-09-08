@@ -97,7 +97,7 @@ async def print_events(probe, interval):
                 e.latency,
                 e.since_sent.total_seconds(),
                 since_prev_diff(e),
-                f"#{e.received_by.id}" if e.received_by else "",
+                id(e.received_by) if e.received_by else "",
             ]
             for seqno, e in probe.events.items()
         ]

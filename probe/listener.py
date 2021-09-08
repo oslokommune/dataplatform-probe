@@ -18,16 +18,14 @@ class Listener:
     def __init__(
         self,
         probe,
-        listener_id,
         websockets_uri,
         delay_start=0,
     ):
         self.probe = probe
-        self.id = listener_id
         self.uri = websockets_uri
         self.delay = delay_start
 
-        logger.info(f"Initialized listener #{self.id} (delay={self.delay})")
+        logger.info(f"Initialized {self} (delay={self.delay})")
 
     async def start(self):
         attempts = 0
@@ -67,4 +65,4 @@ class Listener:
                 break
 
     def __str__(self):
-        return f"Listener#{self.id}"
+        return f"Listener[{id(self)}]"

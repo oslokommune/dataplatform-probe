@@ -28,7 +28,6 @@ class Probe:
         self.listeners = [
             Listener(
                 probe=self,
-                listener_id=(i + 1),
                 websockets_uri="{}?dataset_id={}&webhook_token={}".format(
                     self.config["WEBSOCKET_BASE_URL"],
                     self.config["DATASET_ID"],
@@ -83,8 +82,8 @@ class Probe:
             # Ignore events previously received by another handler
             if event.received_by != listener:
                 logger.debug(
-                    "Ignoring event {} from {} (already received by #{})".format(
-                        event, listener, event.received_by.id
+                    "Ignoring event {} from {} (already received by {})".format(
+                        event, listener, event.received_by
                     )
                 )
                 return
@@ -95,8 +94,8 @@ class Probe:
         event.state = EventState.RECEIVED
         event.received_by = listener
         logger.info(
-            "Event RX: {} (latency={}, listener=#{})".format(
-                event, event.latency, listener.id
+            "Event RX: {} (latency={}, listener={})".format(
+                event, event.latency, listener
             )
         )
         self.metrics.event_latency.set(event.latency)

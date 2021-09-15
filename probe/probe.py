@@ -87,7 +87,7 @@ class Probe(object):
             ("events_missing_1h_share", (now - timedelta(hours=1))),
         ):
             events = self.get_events_sent_after(timestamp)
-            missing_events = [e for e in events if e.state != EventState.RECEIVED]
+            missing_events = [e for e in events if e.state == EventState.PENDING]
             share_of_events_missing = len(missing_events) / len(events) * 100
             metric = getattr(self.metrics, metric_attr)
             metric.set(share_of_events_missing)

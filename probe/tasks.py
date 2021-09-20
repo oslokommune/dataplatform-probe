@@ -83,7 +83,7 @@ async def print_events(probe, interval):
             return None
         return (event.time_sent - previous_event.time_sent).total_seconds()
 
-    headers = ["#", "State", "TX", "RX", "Latency", "Age", "Diff. prev."]
+    headers = ["#", "State", "TX", "RX", "Latency", "Age", "Diff. prev.", "Listener"]
 
     while True:
         await asyncio.sleep(interval)
@@ -97,6 +97,7 @@ async def print_events(probe, interval):
                 e.latency,
                 e.since_sent.total_seconds(),
                 since_prev_diff(e),
+                id(e.received_by) if e.received_by else "",
             ]
             for seqno, e in probe.events.items()
         ]

@@ -2,40 +2,51 @@ import asyncio
 import logging
 import websockets
 
-CLIENTS = set()
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-async def register(websocket):
-    CLIENTS.add(websocket)
+listeners = []
 
 
-async def unregister(websocket):
-    CLIENTS.remove(websocket)
+async def disturbinator(interval):
+    """Close the oldest listener every `interval` seconds."""
+    while True:
+        await asyncio.sleep(interval)
+        if listeners:
+            listener = listeners.pop()
+            await listener.close(code=1001, reason="Going away")
+            logger.info(f"Closed a listener, {len(listeners)} left")
 
 
-async def send_all(event):
-    logger.info(f"Sending event, clients={len(CLIENTS)}")
-    for client in CLIENTS:
-        try:
-            await client.send(event)
-        except Exception:
-            pass
+async def handler(websocket, path):
+    """WebSocket handler coroutine.
 
+    Broadcast received WebSocket messages to all connected
+    probe event listeners, as identified by the request path.
+    """
+    if "dataset_id" in path:
+        # Probe event listener
+        listeners.insert(0, websocket)
+        logger.info(f"Listener connected, total={len(listeners)}")
 
-async def echo(websocket, path):
-    await register(websocket)
     try:
         async for message in websocket:
-            await send_all(message)
-    finally:
-        await unregister(websocket)
+            if listeners:
+                # Broadcast event to all connected listeners
+                logger.info(f"Sending event (listeners={len(listeners)})")
+                await asyncio.wait([l.send(message) for l in listeners])
+            else:
+                logger.warning("Ignoring event, no one listening..")
+    except websockets.exceptions.ConnectionClosedError:
+        if websocket in listeners:
+            listeners.remove(websocket)
+            logger.info(f"Listener disconnected, total={len(listeners)}")
 
 
 logger.info("Starting websocket server...")
-start_server = websockets.serve(echo, "0.0.0.0", 8765)
+start_server = websockets.serve(handler, "0.0.0.0", 8765)
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+loop = asyncio.get_event_loop()
+loop.create_task(disturbinator(180))
+loop.run_until_complete(start_server)
+loop.run_forever()

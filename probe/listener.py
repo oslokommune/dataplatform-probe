@@ -30,7 +30,7 @@ class Listener:
     async def start(self):
         attempts = 0
         backoff_factor = 0.5
-        max_connection_attempts = 10
+        max_connection_attempts = 15
 
         while True:
             if attempts == 0 and self.delay > 0:
@@ -58,7 +58,8 @@ class Listener:
                 #  https://bugs.python.org/issue29980
                 logger.error(f"{self}: Connection failed: {e}")
 
-            await asyncio.sleep(backoff_factor * attempts)
+            backoff_time = backoff_factor * (2 ** (attempts - 1))
+            await asyncio.sleep(backoff_time)
 
             if attempts == max_connection_attempts:
                 logger.warning(f"{self}: Exhausted all connection retry attempts")

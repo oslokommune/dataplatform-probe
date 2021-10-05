@@ -24,6 +24,7 @@ class Listener:
         self.probe = probe
         self.uri = websockets_uri
         self.delay = delay_start
+        self.connected = False
 
         logger.info(f"Initialized {self} (delay={self.delay})")
 
@@ -41,10 +42,15 @@ class Listener:
 
             try:
                 attempts += 1
-                logger.info(f"{self}: Connecting to {self.uri}, attempt={attempts}")
+                logger.info(
+                    "{}: Connecting to {}, attempt={}".format(
+                        self, self.probe.config["WEBSOCKET_BASE_URL"], attempts
+                    )
+                )
                 async with websocket_connect(self.uri) as websocket:
                     logger.info(f"{self}: Connected to websocket endpoint")
                     attempts = 0
+                    self.connected = True
 
                     while True:
                         response = await websocket.recv()
@@ -58,6 +64,7 @@ class Listener:
                 #  https://bugs.python.org/issue29980
                 logger.error(f"{self}: Connection failed: {e}")
 
+            self.connected = False
             backoff_time = backoff_factor * (2 ** (attempts - 1))
             await asyncio.sleep(backoff_time)
 

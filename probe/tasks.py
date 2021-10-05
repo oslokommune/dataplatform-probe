@@ -49,6 +49,11 @@ async def post_event(probe):
 
         next_send = next_send + interval
 
+        # Count connected listeners
+        probe.metrics.event_listeners_connected_count.labels(probe.app_id).set(
+            len([l for l in probe.listeners if l.connected])
+        )
+
 
 async def clean_events(probe):
     interval = int(probe.config["CLEAN_EVENTS_INTERVAL_SECONDS"])

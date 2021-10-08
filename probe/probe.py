@@ -39,6 +39,8 @@ class Probe:
         ]
         self.loop = asyncio.get_event_loop()
 
+        self.metrics.event_listeners_count.labels(self.app_id).set(len(self.listeners))
+
     def on_event_post(self, event: Event):
         event.time_sent = datetime.now(timezone.utc)
         event.state = EventState.PENDING

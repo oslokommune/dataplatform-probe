@@ -26,19 +26,29 @@ class Metrics:
         name="probe_event_latency", documentation="Event latency"
     )
 
-    events_missing_1m_share = Gauge(
+    events_missing_1m_share: Gauge = Gauge(
         name="probe_events_missing_1m_share",
         documentation="Share of events missing last 1 minute",
     )
-    events_missing_10m_share = Gauge(
+    events_missing_10m_share: Gauge = Gauge(
         name="probe_events_missing_10m_share",
         documentation="Share of events missing last 10 minutes",
     )
-    events_missing_1h_share = Gauge(
+    events_missing_1h_share: Gauge = Gauge(
         name="probe_events_missing_1h_share",
         documentation="Share of events missing last 1 hour",
     )
 
+    event_listeners_count: Gauge = Gauge(
+        name="probe_event_listeners_count",
+        documentation="Event listeners count",
+        labelnames=["app_id"],
+    )
+    event_listeners_connected_count: Gauge = Gauge(
+        name="probe_event_listeners_connected_count",
+        documentation="Connected event listeners count",
+        labelnames=["app_id"],
+    )
     events_duplicates: Counter = Counter(
         name="probe_events_duplicates",
         documentation="Number of duplicates received",

@@ -31,7 +31,7 @@ class Listener:
     async def start(self):
         attempts = 0
         backoff_factor = 0.5
-        max_connection_attempts = 15
+        max_connection_attempts = 10
 
         while True:
             if attempts == 0 and self.delay > 0:

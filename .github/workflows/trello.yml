@@ -1,4 +1,4 @@
-name: GitHub Commit To Trello Comment
+name: GitHub Commit To Trello
 
 on: [push, pull_request]
 

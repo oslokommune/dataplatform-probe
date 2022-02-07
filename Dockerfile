@@ -1,4 +1,5 @@
-FROM python:3.8
+# python:3.10-bullseye
+FROM python@sha256:536565e6d1d70f8d64cd054c796dbbf6abdcaaf85f4169b5715c7856a56ee903
 
 WORKDIR /usr/src/app/workdir
 COPY requirements.txt ./

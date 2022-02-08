@@ -51,7 +51,7 @@ async def post_event(probe):
 
         # Count connected listeners
         probe.metrics.event_listeners_connected_count.labels(probe.app_id).set(
-            len([l for l in probe.listeners if l.connected])
+            len([li for li in probe.listeners if li.connected])
         )
 
 

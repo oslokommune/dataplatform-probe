@@ -1,5 +1,5 @@
-# python:3.10-bullseye
-FROM python@sha256:536565e6d1d70f8d64cd054c796dbbf6abdcaaf85f4169b5715c7856a56ee903
+# python:3.8-bullseye
+FROM python@sha256:eb6bb612babb3bcb3b846e27904807f0fd2322b8d3d832b84dbc244f8fb25068
 RUN mkdir /usr/src/app/
 COPY . /usr/src/app/
 WORKDIR /usr/src/app/

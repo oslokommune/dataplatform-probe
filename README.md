@@ -76,4 +76,4 @@ $ docker-compose -f local-compose.yaml logs --follow --tail=10 # Tail service lo
 
 ## Deploy
 
-Deploy to both dev and prod is automatic via GitHub Actions on push to main.
+Deploy to both dev and prod is automatic via GitHub Actions on push to master.

@@ -3,6 +3,11 @@ name: Deploy dev
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_DEV:
+        required: true
+      AWS_SECRET_ACCESS_KEY_DEV:
+        required: true
 
 jobs:
   push:

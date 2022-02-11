@@ -1,0 +1,15 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy_dev:
+    uses: ./.github/workflows/deploy_dev.yml
+
+  deploy_prod:
+    uses: ./.github/workflows/deploy_prod.yml
+    needs: deploy_dev

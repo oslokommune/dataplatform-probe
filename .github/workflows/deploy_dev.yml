@@ -1,29 +1,13 @@
 name: Deploy dev
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - .github/workflows/*
-      - probe/**
-      - resources/**
-      - Dockerfile
-      - Pipfile*
-      - docker-entrypoint.sh
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   push:
     name: Build, push image
     runs-on: ubuntu-latest
-    # permissions:
-    #   actions: read
-    #   checks: read
-    #   contents: write
-    #   deployments: write
-    #   packages: write
-    #   statuses: read
 
     steps:
       - uses: actions/checkout@v2
@@ -59,6 +43,6 @@ jobs:
           push: true
           tags: ${{ steps.tag_store.outputs.tags }}
 
-      # - name: Deploy to AWS fargate
-      #   run: |
-      #     aws ecs update-service --force-new-deployment --service probe --cluster dataplatform-probe --region eu-west-1
+      - name: Deploy to AWS fargate
+        run: |
+          aws ecs update-service --force-new-deployment --service probe --cluster dataplatform-probe --region eu-west-1

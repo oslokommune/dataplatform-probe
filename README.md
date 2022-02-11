@@ -73,3 +73,7 @@ To test against `event-collector`/`event-data-subscription` "for real" (while st
 $ docker-compose -f local-compose.yaml ps # Check services
 $ docker-compose -f local-compose.yaml logs --follow --tail=10 # Tail service logs
 ```
+
+## Deploy
+
+Deploy to both dev and prod is automatic via GitHub Actions on push to main.

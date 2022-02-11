@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - .github/workflows/*
-      - probe/**
-      - resources/**
-      - Dockerfile
-      - Pipfile*
-      - docker-entrypoint.sh
   workflow_dispatch:
 
 jobs:

@@ -21,6 +21,5 @@ setup(
         "prometheus-client",
         "requests",
         "tabulate",
-        "websockets",
     ],
 )

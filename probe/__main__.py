@@ -6,7 +6,7 @@ from okdata.sdk.config import Config
 from okdata.sdk.data.dataset import Dataset
 
 from .probe import Probe
-from .tasks import print_events
+from .tasks import print_tasks
 
 LOCAL_RUN = os.getenv("LOCAL_RUN") == "true"
 LOCAL_SERVICES_ONLY = os.getenv("LOCAL_SERVICES_ONLY") == "true"
@@ -58,6 +58,6 @@ if __name__ == "__main__":
     )
 
     if LOCAL_RUN:
-        probe.loop.create_task(print_events(probe, interval=30))
+        probe.loop.create_task(print_tasks(probe, interval=30))
 
     probe.run()

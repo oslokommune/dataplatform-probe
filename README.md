@@ -1,5 +1,7 @@
 # dataplatform-probe
-Monitoring service for dataplatform services and events.
+Monitoring service for dataplatform services.
+
+Continuously sends get requests to the dataplatform metadata-api in order to keep an eye on Keycloak.
 
 ## Metrics
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose

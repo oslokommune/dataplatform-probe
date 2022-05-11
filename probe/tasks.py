@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 from tabulate import tabulate
 
-from .models import Task, TaskState
+from .models import Task
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ async def get_dataset(probe):
         next_task = next_task + interval
 
 
-async def clean_task_backlog(probe):
+async def clean_tasks(probe):
     interval = int(probe.config["CLEAN_TASKS_INTERVAL_SECONDS"])
 
     while True:
@@ -52,18 +52,20 @@ async def clean_task_backlog(probe):
         dismiss_task_timeout = timedelta(
             seconds=probe.config["DISMISS_TASK_SECONDS"]
         )
-        dismissed_task_count = 0
+        purgable_tasks = []
 
         # Dismiss old tasks
-        for event in probe.events.values():
-            if now > (event.time_created + dismiss_task_timeout):
-                probe.events.pop(event.seqno, None)
-                dismissed_task_count += 1
+        for task in probe.tasks.values():
+            if now > (task.time_created + dismiss_task_timeout):
+                purgable_tasks.append(task)
 
-        logger.info(f"Cleaned tasks, removed={len(dismissed_task_count)}")
+        for task in purgable_tasks:
+            probe.tasks.pop(task.seqno, None)
+
+        logger.info(f"Cleaned tasks, removed={len(purgable_tasks)}")
 
 
-async def print_events(probe, interval):
+async def print_tasks(probe, interval):
     headers = ["#", "State", "Created", "Succeeded", "Failed", "Duration"]
 
     while True:
@@ -78,7 +80,7 @@ async def print_events(probe, interval):
                 e.time_failed,
                 e.duration,
             ]
-            for seqno, e in probe.backlog.items()
+            for seqno, e in probe.tasks.items()
         ]
 
         print(tabulate(rows, headers=headers))

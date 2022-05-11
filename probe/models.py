@@ -1,35 +1,28 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from dataclasses import dataclass
 from enum import Enum
 
-from probe.listener import Listener
 
-
-class EventState(str, Enum):
+class TaskState(str, Enum):
     PENDING = "pending"
-    RECEIVED = "received"
-    ERROR = "error"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
 
 
 @dataclass
-class Event:
+class Task:
     app_id: str
     seqno: int
-    time_sent: datetime = None
-    time_received: datetime = None
-    state: EventState = None
-    received_by: Listener = None
+    time_created: datetime = None
+    time_succeeded: datetime = None
+    time_failed: datetime = None
+    state: TaskState = None
 
     @property
-    def latency(self):
-        if self.time_received:
-            return (self.time_received - self.time_sent).total_seconds()
-        return None
-
-    @property
-    def since_sent(self) -> timedelta:
-        if self.time_sent:
-            return datetime.now(timezone.utc) - self.time_sent
+    def duration(self):
+        time_completed = self.time_succeeded or self.time_failed
+        if time_completed:
+            return (time_completed - self.time_created).total_seconds()
         return None
 
     def __str__(self):

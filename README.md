@@ -1,40 +1,27 @@
 # dataplatform-probe
 Monitoring service for dataplatform services and events.
 
-This application continuously sends events to the dataplatform pipeline to test the latency of the pipeline.
-
 ## Metrics
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
 metrics to Prometheus regarding pipeline latency through a http server on port `8000`.
 
 | Name                             | Type      | Description                                          |
 |----------------------------------|-----------|------------------------------------------------------|
-| `probe_events_posted`            | `Counter` | Number of events posted.                             |
-| `probe_events_received`          | `Counter` | Number of events received.                           |
-| `probe_events_lost`              | `Counter` | Number of events considered lost.                    |
-| `probe_event_post_errors`        | `Counter` | Number of errors that occurred while posting events. |
-| `probe_event_latency`            | `Gauge`   | The latency of the latest received event.            |
-| `probe_events_missing_1m_share`  | `Gauge`   | Share of events missing last minute.                 |
-| `probe_events_missing_10m_share` | `Gauge`   | Share of events missing last 10 minutes.             |
-| `probe_events_missing_1h_share`  | `Gauge`   | Share of events missing last hour.                   |
-| `probe_events_duplicates`        | `Counter` | Number of duplicates received.                       |
-| `probe_wrong_appid`              | `Counter` | Number of events received with a mismatched app id.  |
-
+| `probe_tasks_created`            | `Counter` | Number of created tasks.                             |
+| `probe_tasks_succeeded`          | `Counter` | Number of succeeded tasks.                           |
+| `probe_tasks_failed`             | `Counter` | Number of failed tasks.                              |
+| `probe_task_duration`            | `Gauge`   | The duration of the last succeeded task.             |
 
 ## Configuration
 
-The app is configurable by setting the following environment variables (* = no default, i.e. required):
+The app is configurable by setting the following environment variables (* = required, no default):
 
-| Name                            | Description                                                 | Default        |
-|---------------------------------|-------------------------------------------------------------|----------------|
-| `DATASET_ID`*                   | Dataset ID                                                  |                |
-| `DATASET_VERSION`               | Dataset version                                             | `1`            |
-| `WEBHOOK_TOKEN`*                | Token to use to authenticate with websocket                 |                |
-| `WEBSOCKET_URL`*                | URL to the websocket to listen to                           |                |
-| `WEBSOCKET_LISTENERS`           | Number of event listeners (WebSocket handlers)              | `2`            |
-| `EVENT_INTERVAL_SECONDS`        | Interval in seconds between posting events                  | `10`           |
-| `DISMISS_EVENT_TIMEOUT_SECONDS` | Seconds after which an event is removed and considered lost | `60 * 60 * 24` |
-| `CLEAN_EVENTS_INTERVAL_SECONDS` | Interval in seconds between cleaning the event list         | `60 * 5`       |
+| Name                           | Description                                                      | Default        |
+|--------------------------------|------------------------------------------------------------------|----------------|
+| `DATASET_ID`*                  | Dataset ID                                                       |                |
+| `TASK_INTERVAL_SECONDS`        | Interval in seconds between creating a new task                  | `10`           |
+| `DISMISS_TASK_SECONDS`         | Seconds after which a task is removed                            | `60 * 60 * 24` |
+| `CLEAN_TASKS_INTERVAL_SECONDS` | Interval in seconds between cleaning the task backlog            | `60 * 5`       |
 
 In addition, `OKDATA_CLIENT_ID`, `OKDATA_CLIENT_SECRET`, and `OKDATA_ENVIRONMENT`, must also be set when deploying.
 
@@ -59,15 +46,12 @@ By issuing the command `make run`, a local environment is configured comprising 
 * [**Grafana**](https://hub.docker.com/r/grafana/grafana) (+ [tns-db](https://hub.docker.com/r/grafana/tns-db)) | `http://localhost:3000`  \
   Observability and data visualization platform. Includes a provisioned datasource and dashboard for the application. Default username/password: `admin`/`admin`.
 
-* **WebSocket server** | `ws://localhost:8765` \
-  Simply echoes received events to connected clients (emulating [event-data-subscription](https://github.com/oslokommune/event-data-subscription)).
-
 * **HTTP server** | `http://localhost:8081` \
-  Accepts POST requests for events (emulating [okdata-event-collector](https://github.com/oslokommune/okdata-event-collector)). By default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of received events, and simply "losing" ~5 percent (configurable at `http://localhost:8081/config/` by passing query arguments, e.g. `?ADD_LATENCY_PERCENT=15`).
+  Accepts requests from tasks, currently emulating [okdata-metadata-api](https://github.com/oslokommune/okdata-metadata-api). By default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of requests, as well as failing with `401` for ~5 percent (configurable in `local/http_server/http_server.py`).
 
-The `run` target sets `LOCAL_RUN=true` and `LOCAL_SERVICES_ONLY=true`. While the first environment variable enables "debug mode", the latter tells the application to bypasss connections to `event-collector`/`event-data-subscription` and instead use the "dummy" WebSocket/HTTP servers mentioned above. Also: When running the application locally, an additonal task is created which simply prints a table of all tracked events every 30 seconds.
+The `run` target sets `LOCAL_RUN=true` and `LOCAL_SERVICES_ONLY=true`. While the first environment variable enables "debug mode", the latter tells the application to use the "dummy" HTTP server mentioned above. Also: When running the application locally, an additonal task is created which simply prints a table of all tracked tasks every 30 seconds.
 
-To test against `event-collector`/`event-data-subscription` "for real" (while stilling running the application locally), set the appropriate environment variables listed above (i.e. credentials, dataset id, webhook token) and use `make run-dp`.
+To test against real dataplatform services (while still running the application locally), set the appropriate environment variables listed above (i.e. credentials and dataset id) and use `make run-dp`.
 
 ```sh
 $ docker-compose -f local-compose.yaml ps # Check services

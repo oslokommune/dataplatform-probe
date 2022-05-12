@@ -1,27 +1,27 @@
 # dataplatform-probe
 Monitoring service for dataplatform services.
 
-Continuously sends get requests to the dataplatform metadata-api in order to keep an eye on Keycloak.
+Continuously sends GET requests to the dataplatform metadata-api in order to keep an eye on Keycloak.
 
 ## Metrics
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
 metrics to Prometheus regarding pipeline latency through a http server on port `8000`.
 
-| Name                             | Type      | Description                                          |
-|----------------------------------|-----------|------------------------------------------------------|
-| `probe_requests_created`         | `Counter` | Number of created requests                           |
-| `probe_requests_succeeded        | `Counter` | Number of succeeded requests                         |
-| `probe_requests_failed`          | `Counter` | Number of failed requests                            |
-| `probe_request_duration`         | `Gauge`   | The duration of the last succeeded requests          |
+| Name                      | Type      | Description                                 |
+|---------------------------|-----------|---------------------------------------------|
+| `probe_requests_created`  | `Counter` | Number of created requests                  |
+| `probe_requests_succeeded | `Counter` | Number of succeeded requests                |
+| `probe_requests_failed`   | `Counter` | Number of failed requests                   |
+| `probe_request_duration`  | `Gauge`   | The duration of the last succeeded requests |
 
 ## Configuration
 
 The app is configurable by setting the following environment variables (* = required, no default):
 
-| Name                           | Description                                                      | Default        |
-|--------------------------------|------------------------------------------------------------------|----------------|
-| `DATASET_ID`*                  | Dataset ID                                                       |                |
-| `TASK_INTERVAL_SECONDS`        | Interval in seconds between creating a new request task          | `10`           |
+| Name                    | Description                          | Default |
+|-------------------------|--------------------------------------|---------|
+| `DATASET_ID`*           | Dataset ID                           |         |
+| `TASK_INTERVAL_SECONDS` | Interval in seconds between requests | `10`    |
 
 In addition, `OKDATA_CLIENT_ID`, `OKDATA_CLIENT_SECRET`, and `OKDATA_ENVIRONMENT`, must also be set when deploying.
 

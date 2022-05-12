@@ -6,7 +6,6 @@ from okdata.sdk.config import Config
 from okdata.sdk.data.dataset import Dataset
 
 from .probe import Probe
-from .tasks import print_tasks
 
 LOCAL_RUN = os.getenv("LOCAL_RUN") == "true"
 LOCAL_SERVICES_ONLY = os.getenv("LOCAL_SERVICES_ONLY") == "true"
@@ -26,6 +25,7 @@ else:
 
 def configure_sdk():
     if LOCAL_SERVICES_ONLY:
+
         class LocalSDK:
             def get_dataset(self, datasetid, retries):
                 res = requests.get(f"{LOCAL_METADATA_API_URL}/{datasetid}")
@@ -47,17 +47,8 @@ if __name__ == "__main__":
         sdk,
         {
             "TASK_INTERVAL_SECONDS": int(os.getenv("TASK_INTERVAL_SECONDS", 10)),
-            "DISMISS_TASK_SECONDS": int(
-                os.getenv("DISMISS_TASK_SECONDS", 60 * 60 * 24)
-            ),
-            "CLEAN_TASKS_INTERVAL_SECONDS": int(
-                os.getenv("CLEAN_TASKS_INTERVAL_SECONDS", 60 * 5)
-            ),
             "DATASET_ID": os.environ["DATASET_ID"],
         },
     )
-
-    if LOCAL_RUN:
-        probe.loop.create_task(print_tasks(probe, interval=30))
 
     probe.run()

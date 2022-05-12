@@ -1,9 +1,7 @@
 import asyncio
 import logging
 from threading import Thread
-from datetime import datetime, timedelta, timezone
-
-from tabulate import tabulate
+from datetime import datetime, timedelta
 
 from .models import RequestTask
 
@@ -40,47 +38,3 @@ async def get_dataset(probe):
         Thread(target=_get_dataset_request, args=(probe, request_task)).start()
 
         next_request = next_request + interval
-
-
-async def clean_tasks(probe):
-    interval = int(probe.config["CLEAN_TASKS_INTERVAL_SECONDS"])
-
-    while True:
-        await asyncio.sleep(interval)
-
-        now = datetime.now(timezone.utc)
-        dismiss_task_timeout = timedelta(
-            seconds=probe.config["DISMISS_TASK_SECONDS"]
-        )
-        purgable_tasks = []
-
-        # Dismiss old tasks
-        for request_task in probe.request_tasks.values():
-            if now > (request_task.time_created + dismiss_task_timeout):
-                purgable_tasks.append(request_task)
-
-        for task in purgable_tasks:
-            probe.request_tasks.pop(request_task.seqno, None)
-
-        logger.info(f"Cleaned tasks, removed={len(purgable_tasks)}")
-
-
-async def print_tasks(probe, interval):
-    headers = ["#", "State", "Created", "Succeeded", "Failed", "Duration"]
-
-    while True:
-        await asyncio.sleep(interval)
-
-        rows = [
-            [
-                seqno,
-                e.state.upper(),
-                e.time_created,
-                e.time_succeeded,
-                e.time_failed,
-                e.duration,
-            ]
-            for seqno, e in probe.request_tasks.items()
-        ]
-
-        print(tabulate(rows, headers=headers))

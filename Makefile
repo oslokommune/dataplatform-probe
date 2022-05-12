@@ -45,8 +45,6 @@ run: setup-local-env
 	LOCAL_RUN=true \
 	LOCAL_SERVICES_ONLY=true \
 	DATASET_ID=abc123 \
-	DISMISS_TASK_SECONDS=300 \
-	CLEAN_TASKS_INTERVAL_SECONDS=60 \
 	$(BUILD_VENV)/bin/python -m probe
 
 .PHONY: run-dp

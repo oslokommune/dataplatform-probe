@@ -4,13 +4,11 @@
 #
 #    pip-compile
 #
-anyio==3.5.0
-    # via starlette
 attrs==21.4.0
     # via jsonschema
 aws-xray-sdk==2.9.0
     # via dataplatform-probe (setup.py)
-botocore==1.25.11
+botocore==1.25.12
     # via aws-xray-sdk
 certifi==2021.10.8
     # via requests
@@ -21,25 +19,19 @@ ecdsa==0.17.0
 future==0.18.2
     # via aws-xray-sdk
 idna==3.3
-    # via
-    #   anyio
-    #   requests
+    # via requests
 jmespath==1.0.0
     # via botocore
 jsonschema==4.5.1
     # via okdata-sdk
-okdata-aws==1.0.0
-    # via dataplatform-probe (setup.py)
 okdata-sdk==2.0.0
-    # via okdata-aws
+    # via dataplatform-probe (setup.py)
 prometheus-client==0.14.1
     # via dataplatform-probe (setup.py)
 pyasn1==0.4.8
     # via
     #   python-jose
     #   rsa
-pydantic==1.9.0
-    # via okdata-aws
 pyjwt==2.3.0
     # via okdata-sdk
 pyrsistent==0.18.1
@@ -55,7 +47,6 @@ python-keycloak==0.27.0
 requests==2.27.1
     # via
     #   dataplatform-probe (setup.py)
-    #   okdata-aws
     #   okdata-sdk
     #   python-keycloak
 rsa==4.8
@@ -64,18 +55,6 @@ six==1.16.0
     # via
     #   ecdsa
     #   python-dateutil
-sniffio==1.2.0
-    # via anyio
-starlette==0.20.0
-    # via okdata-aws
-structlog==21.5.0
-    # via okdata-aws
-tabulate==0.8.9
-    # via dataplatform-probe (setup.py)
-typing-extensions==4.2.0
-    # via
-    #   pydantic
-    #   starlette
 urllib3==1.26.9
     # via
     #   botocore

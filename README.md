@@ -7,12 +7,12 @@ Continuously sends GET requests to the dataplatform metadata-api in order to kee
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
 metrics to Prometheus regarding pipeline latency through a http server on port `8000`.
 
-| Name                      | Type      | Description                                 |
-|---------------------------|-----------|---------------------------------------------|
-| `probe_requests_created`  | `Counter` | Number of created requests                  |
-| `probe_requests_succeeded | `Counter` | Number of succeeded requests                |
-| `probe_requests_failed`   | `Counter` | Number of failed requests                   |
-| `probe_request_duration`  | `Gauge`   | The duration of the last succeeded requests |
+| Name                       | Type      | Description                                 |
+|----------------------------|-----------|---------------------------------------------|
+| `probe_requests_created`   | `Counter` | Number of created requests                  |
+| `probe_requests_succeeded` | `Counter` | Number of succeeded requests                |
+| `probe_requests_failed`    | `Counter` | Number of failed requests                   |
+| `probe_request_duration`   | `Gauge`   | The duration of the last succeeded requests |
 
 ## Configuration
 

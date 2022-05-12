@@ -2,7 +2,6 @@ import logging
 import os
 
 import requests
-from okdata.sdk.config import Config
 from okdata.sdk.data.dataset import Dataset
 
 from .probe import Probe
@@ -34,9 +33,7 @@ def configure_sdk():
 
         return LocalSDK()
 
-    origo_config = Config()
-    origo_config.config["cacheCredentials"] = False
-    return Dataset(config=origo_config)
+    return Dataset()
 
 
 if __name__ == "__main__":

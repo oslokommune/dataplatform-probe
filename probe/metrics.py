@@ -2,21 +2,22 @@ from prometheus_client import Counter, Gauge
 
 
 class Metrics:
-    tasks_created: Counter = Counter(
-        name="probe_tasks_created",
-        documentation="Number of created tasks",
+    requests_created: Counter = Counter(
+        name="probe_requests_created",
+        documentation="Number of created requests",
         labelnames=["app_id"],
     )
-    tasks_succeeded: Counter = Counter(
-        name="probe_tasks_succeeded",
-        documentation="Number of succeeded tasks",
+    requests_succeeded: Counter = Counter(
+        name="probe_requests_succeeded",
+        documentation="Number of succeeded requests",
         labelnames=["app_id"],
     )
-    tasks_failed: Counter = Counter(
-        name="probe_tasks_failed",
-        documentation="Number of failed tasks",
+    requests_failed: Counter = Counter(
+        name="probe_requests_failed",
+        documentation="Number of failed requests",
         labelnames=["app_id"],
     )
-    task_duration: Gauge = Gauge(
-        name="probe_task_duration", documentation="Task duration"
+
+    request_duration: Gauge = Gauge(
+        name="probe_request_duration", documentation="Request duration"
     )

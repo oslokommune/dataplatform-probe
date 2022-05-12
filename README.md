@@ -9,10 +9,10 @@ metrics to Prometheus regarding pipeline latency through a http server on port `
 
 | Name                             | Type      | Description                                          |
 |----------------------------------|-----------|------------------------------------------------------|
-| `probe_tasks_created`            | `Counter` | Number of created tasks.                             |
-| `probe_tasks_succeeded`          | `Counter` | Number of succeeded tasks.                           |
-| `probe_tasks_failed`             | `Counter` | Number of failed tasks.                              |
-| `probe_task_duration`            | `Gauge`   | The duration of the last succeeded task.             |
+| `probe_requests_created`         | `Counter` | Number of created requests                           |
+| `probe_requests_succeeded        | `Counter` | Number of succeeded requests                         |
+| `probe_requests_failed`          | `Counter` | Number of failed requests                            |
+| `probe_request_duration`         | `Gauge`   | The duration of the last succeeded requests          |
 
 ## Configuration
 
@@ -21,9 +21,9 @@ The app is configurable by setting the following environment variables (* = requ
 | Name                           | Description                                                      | Default        |
 |--------------------------------|------------------------------------------------------------------|----------------|
 | `DATASET_ID`*                  | Dataset ID                                                       |                |
-| `TASK_INTERVAL_SECONDS`        | Interval in seconds between creating a new task                  | `10`           |
-| `DISMISS_TASK_SECONDS`         | Seconds after which a task is removed                            | `60 * 60 * 24` |
-| `CLEAN_TASKS_INTERVAL_SECONDS` | Interval in seconds between cleaning the task backlog            | `60 * 5`       |
+| `TASK_INTERVAL_SECONDS`        | Interval in seconds between creating a new request task          | `10`           |
+| `DISMISS_TASK_SECONDS`         | Seconds after which a request task is removed                    | `60 * 60 * 24` |
+| `CLEAN_TASKS_INTERVAL_SECONDS` | Interval in seconds between cleaning the request task backlog    | `60 * 5`       |
 
 In addition, `OKDATA_CLIENT_ID`, `OKDATA_CLIENT_SECRET`, and `OKDATA_ENVIRONMENT`, must also be set when deploying.
 

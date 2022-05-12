@@ -67,20 +67,20 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "probe_tasks_created_total",
+          "expr": "probe_requests_created_total",
           "interval": "",
           "legendFormat": "Created",
           "refId": "A"
         },
         {
-          "expr": "probe_tasks_succeeded_total",
+          "expr": "probe_requests_succeeded_total",
           "hide": false,
           "interval": "",
           "legendFormat": "Succeeded",
           "refId": "B"
         },
         {
-          "expr": "probe_tasks_failed_total",
+          "expr": "probe_requests_failed_total",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -89,7 +89,7 @@
           "refId": "C"
         }
       ],
-      "title": "Tasks (totals)",
+      "title": "Requests (totals)",
       "type": "stat"
     },
     {
@@ -140,13 +140,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "round(increase(probe_tasks_created_total[1m]))",
+          "expr": "round(increase(probe_requests_created_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "round(increase(probe_tasks_created_total[10m]))",
+          "expr": "round(increase(probe_requests_created_total[10m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -154,7 +154,7 @@
           "refId": "B"
         },
         {
-          "expr": "round(increase(probe_tasks_created_total[1h]))",
+          "expr": "round(increase(probe_requests_created_total[1h]))",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
@@ -212,13 +212,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "round(increase(probe_tasks_succeeded_total[1m]))",
+          "expr": "round(increase(probe_requests_succeeded_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "round(increase(probe_tasks_succeeded_total[10m]))",
+          "expr": "round(increase(probe_requests_succeeded_total[10m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -226,7 +226,7 @@
           "refId": "B"
         },
         {
-          "expr": "round(increase(probe_tasks_succeeded_total[1h]))",
+          "expr": "round(increase(probe_requests_succeeded_total[1h]))",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
@@ -284,13 +284,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "round(increase(probe_tasks_failed_total[1m]))",
+          "expr": "round(increase(probe_requests_failed_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "round(increase(probe_tasks_failed_total[10m]))",
+          "expr": "round(increase(probe_requests_failed_total[10m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -298,7 +298,7 @@
           "refId": "B"
         },
         {
-          "expr": "round(increase(probe_tasks_failed_total[1h]))",
+          "expr": "round(increase(probe_requests_failed_total[1h]))",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
@@ -368,21 +368,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(probe_tasks_created_total[1m]) * 60",
+          "expr": "rate(probe_requests_created_total[1m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "rate(probe_tasks_created_total[3m]) * 60",
+          "expr": "rate(probe_requests_created_total[3m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "expr": "rate(probe_tasks_created_total[10m]) * 60",
+          "expr": "rate(probe_requests_created_total[10m]) * 60",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
@@ -483,21 +483,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(probe_tasks_succeeded_total[1m]) * 60",
+          "expr": "rate(probe_requests_succeeded_total[1m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "rate(probe_tasks_succeeded_total[3m]) * 60",
+          "expr": "rate(probe_requests_succeeded_total[3m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "expr": "rate(probe_tasks_succeeded_total[10m]) * 60",
+          "expr": "rate(probe_requests_succeeded_total[10m]) * 60",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
@@ -610,21 +610,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(probe_tasks_failed_total[1m]) * 60",
+          "expr": "rate(probe_requests_failed_total[1m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "rate(probe_tasks_failed_total[3m]) * 60",
+          "expr": "rate(probe_requests_failed_total[3m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "expr": "rate(probe_tasks_failed_total[10m]) * 60",
+          "expr": "rate(probe_requests_failed_total[10m]) * 60",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
@@ -737,28 +737,28 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "probe_task_duration",
+          "expr": "probe_request_duration",
           "hide": true,
           "interval": "",
           "legendFormat": "Duration",
           "refId": "A"
         },
         {
-          "expr": "avg_over_time(probe_task_duration[10m])",
+          "expr": "avg_over_time(probe_request_duration[10m])",
           "hide": false,
           "interval": "",
           "legendFormat": "Average [10m]",
           "refId": "B"
         },
         {
-          "expr": "max_over_time(probe_task_duration[10m])",
+          "expr": "max_over_time(probe_request_duration[10m])",
           "hide": false,
           "interval": "",
           "legendFormat": "Max [10m]",
           "refId": "C"
         },
         {
-          "expr": "quantile_over_time(0.90, probe_task_duration[10m])",
+          "expr": "quantile_over_time(0.90, probe_request_duration[10m])",
           "hide": false,
           "interval": "",
           "legendFormat": "90% quantile [10m]",
@@ -769,7 +769,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Task duration",
+      "title": "Request duration",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -857,13 +857,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "probe_task_duration",
+          "expr": "probe_request_duration",
           "interval": "",
           "legendFormat": "Duration",
           "refId": "A"
         }
       ],
-      "title": "Task duration",
+      "title": "Request duration",
       "type": "table"
     }
   ],

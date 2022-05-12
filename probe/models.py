@@ -3,20 +3,20 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-class TaskState(str, Enum):
+class RequestState(str, Enum):
     PENDING = "pending"
     SUCCEEDED = "succeeded"
     FAILED = "failed"
 
 
 @dataclass
-class Task:
+class RequestTask:
     app_id: str
     seqno: int
     time_created: datetime = None
     time_succeeded: datetime = None
     time_failed: datetime = None
-    state: TaskState = None
+    state: RequestState = None
 
     @property
     def duration(self):

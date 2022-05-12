@@ -1,5 +1,4 @@
 import asyncio
-import json
 import logging
 import uuid
 from datetime import datetime, timezone
@@ -8,7 +7,7 @@ from itertools import count
 from prometheus_client import start_http_server
 
 from .metrics import Metrics
-from .models import Task, TaskState
+from .models import RequestTask, RequestState
 from .tasks import (
     clean_tasks,
     get_dataset,
@@ -25,29 +24,29 @@ class Probe:
         self.config = config
         self.sdk = sdk
         self.counter = count(start=1)
-        self.tasks = {}
+        self.request_tasks = {}
         self.metrics = Metrics()
         self.loop = asyncio.get_event_loop()
 
-    def on_task_created(self, task: Task):
-        task.time_created = datetime.now(timezone.utc)
-        task.state = TaskState.PENDING
-        self.tasks[task.seqno] = task
-        logger.debug(f"Task created: {task}")
-        self.metrics.tasks_created.labels(self.app_id).inc()
+    def on_request_task_created(self, request_task: RequestTask):
+        request_task.time_created = datetime.now(timezone.utc)
+        request_task.state = RequestState.PENDING
+        self.request_tasks[request_task.seqno] = request_task
+        logger.debug(f"Request created: {request_task}")
+        self.metrics.requests_created.labels(self.app_id).inc()
 
-    def on_task_success(self, task: Task, data=None):
-        task.time_succeeded = datetime.now(timezone.utc)
-        task.state = TaskState.SUCCEEDED
-        logger.info(f"Task succeeded: {task} in {task.duration} seconds")
-        self.metrics.task_duration.set(task.duration)
-        self.metrics.tasks_succeeded.labels(self.app_id).inc()
+    def on_request_task_success(self, request_task: RequestTask, data=None):
+        request_task.time_succeeded = datetime.now(timezone.utc)
+        request_task.state = RequestState.SUCCEEDED
+        logger.info(f"Request succeeded: {request_task} in {request_task.duration} seconds")
+        self.metrics.request_duration.set(request_task.duration)
+        self.metrics.requests_succeeded.labels(self.app_id).inc()
 
-    def on_task_fail(self, task: Task, error=None):
-        task.time_failed = datetime.now(timezone.utc)
-        task.state = TaskState.FAILED
-        logger.error(f"Task failed: {task}, err={error}")
-        self.metrics.tasks_failed.labels(self.app_id).inc()
+    def on_request_fail(self, request: RequestTask, error=None):
+        request.time_task_failed = datetime.now(timezone.utc)
+        request.state = RequestState.FAILED
+        logger.error(f"Request failed: {request}, err={error}")
+        self.metrics.requests_failed.labels(self.app_id).inc()
 
     def run(self):
         logger.info("Running probe")

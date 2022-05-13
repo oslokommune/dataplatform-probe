@@ -15,6 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -40,8 +41,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 6,
+        "h": 3,
+        "w": 24,
         "x": 0,
         "y": 0
       },
@@ -49,8 +50,8 @@
       "options": {
         "colorMode": "value",
         "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
+        "justifyMode": "center",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -66,29 +67,29 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "probe_events_posted_total",
+          "expr": "probe_requests_created_total",
           "interval": "",
-          "legendFormat": "Posted",
+          "legendFormat": "Created",
           "refId": "A"
         },
         {
-          "expr": "probe_events_received_total",
+          "expr": "probe_requests_succeeded_total",
           "hide": false,
           "interval": "",
-          "legendFormat": "Received",
+          "legendFormat": "Succeeded",
           "refId": "B"
         },
         {
-          "expr": "probe_events_lost_total",
+          "expr": "probe_requests_failed_total",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "Lost",
+          "legendFormat": "Failed",
           "refId": "C"
         }
       ],
-      "title": "Events (totals)",
+      "title": "Requests (totals)",
       "type": "stat"
     },
     {
@@ -116,9 +117,9 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 6,
-        "x": 6,
-        "y": 0
+        "w": 8,
+        "x": 0,
+        "y": 3
       },
       "id": 3,
       "options": {
@@ -139,13 +140,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "round(increase(probe_events_posted_total[1m]))",
+          "expr": "round(increase(probe_requests_created_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "round(increase(probe_events_posted_total[10m]))",
+          "expr": "round(increase(probe_requests_created_total[10m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -153,14 +154,14 @@
           "refId": "B"
         },
         {
-          "expr": "round(increase(probe_events_posted_total[1h]))",
+          "expr": "round(increase(probe_requests_created_total[1h]))",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
           "refId": "C"
         }
       ],
-      "title": "Events posted",
+      "title": "Created",
       "type": "stat"
     },
     {
@@ -188,9 +189,9 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 6,
-        "x": 12,
-        "y": 0
+        "w": 8,
+        "x": 8,
+        "y": 3
       },
       "id": 4,
       "options": {
@@ -211,13 +212,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "round(increase(probe_events_received_total[1m]))",
+          "expr": "round(increase(probe_requests_succeeded_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "round(increase(probe_events_received_total[10m]))",
+          "expr": "round(increase(probe_requests_succeeded_total[10m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -225,14 +226,14 @@
           "refId": "B"
         },
         {
-          "expr": "round(increase(probe_events_received_total[1h]))",
+          "expr": "round(increase(probe_requests_succeeded_total[1h]))",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
           "refId": "C"
         }
       ],
-      "title": "Events received",
+      "title": "Succeeded",
       "type": "stat"
     },
     {
@@ -260,9 +261,9 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 6,
-        "x": 18,
-        "y": 0
+        "w": 8,
+        "x": 16,
+        "y": 3
       },
       "id": 5,
       "options": {
@@ -283,13 +284,13 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "round(increase(probe_events_lost_total[1m]))",
+          "expr": "round(increase(probe_requests_failed_total[1m]))",
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "round(increase(probe_events_lost_total[10m]))",
+          "expr": "round(increase(probe_requests_failed_total[10m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -297,18 +298,20 @@
           "refId": "B"
         },
         {
-          "expr": "round(increase(probe_events_lost_total[1h]))",
+          "expr": "round(increase(probe_requests_failed_total[1h]))",
           "hide": false,
           "interval": "",
           "legendFormat": "1h",
           "refId": "C"
         }
       ],
-      "title": "Events lost",
+      "title": "Failed",
       "type": "stat"
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "10m": "yellow"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -326,13 +329,13 @@
         },
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 5,
+      "fillGradient": 5,
       "gridPos": {
-        "h": 10,
-        "w": 12,
+        "h": 11,
+        "w": 8,
         "x": 0,
-        "y": 6
+        "y": 9
       },
       "hiddenSeries": false,
       "id": 7,
@@ -349,7 +352,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -365,21 +368,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(probe_events_posted_total[1m]) * 60",
+          "expr": "rate(probe_requests_created_total[1m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "rate(probe_events_posted_total[3m]) * 60",
+          "expr": "rate(probe_requests_created_total[3m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "expr": "rate(probe_events_posted_total[10m]) * 60",
+          "expr": "rate(probe_requests_created_total[10m]) * 60",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
@@ -390,7 +393,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Events posted / min",
+      "title": "Created / min",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -411,7 +414,7 @@
           "format": "short",
           "label": null,
           "logBase": 1,
-          "max": null,
+          "max": "10",
           "min": "0",
           "show": true
         },
@@ -443,13 +446,13 @@
         },
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 5,
+      "fillGradient": 5,
       "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 6
+        "h": 11,
+        "w": 8,
+        "x": 8,
+        "y": 9
       },
       "hiddenSeries": false,
       "id": 8,
@@ -464,7 +467,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -480,21 +483,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(probe_events_received_total[1m]) * 60",
+          "expr": "rate(probe_requests_succeeded_total[1m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "rate(probe_events_received_total[3m]) * 60",
+          "expr": "rate(probe_requests_succeeded_total[3m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "expr": "rate(probe_events_received_total[10m]) * 60",
+          "expr": "rate(probe_requests_succeeded_total[10m]) * 60",
           "hide": false,
           "interval": "",
           "legendFormat": "10m",
@@ -515,7 +518,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Events received / min",
+      "title": "Succeeded / min",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -536,7 +539,7 @@
           "format": "short",
           "label": null,
           "logBase": 1,
-          "max": null,
+          "max": "10",
           "min": "0",
           "show": true
         },
@@ -556,74 +559,34 @@
       }
     },
     {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                2
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "B",
-                "1m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "5m",
-        "frequency": "1m",
-        "handler": 1,
-        "name": "Events missing (share) alert",
-        "noDataState": "no_data",
-        "notifications": [
-          {
-            "uid": "ZfyDW2aMk"
-          }
-        ]
+      "aliasColors": {
+        "10m": "red"
       },
-      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": "Prometheus",
-      "decimals": null,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
-          "unit": "percent"
+          "custom": {}
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
+      "fill": 5,
+      "fillGradient": 5,
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 16
+        "h": 11,
+        "w": 8,
+        "x": 16,
+        "y": 9
       },
       "hiddenSeries": false,
-      "id": 10,
+      "id": 21,
+      "interval": "10",
       "legend": {
         "avg": true,
         "current": true,
-        "hideEmpty": false,
-        "hideZero": false,
         "max": false,
         "min": false,
         "show": true,
@@ -647,41 +610,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "probe_events_missing_1m_share",
+          "expr": "rate(probe_requests_failed_total[1m]) * 60",
           "hide": true,
           "interval": "",
           "legendFormat": "1m",
           "refId": "A"
         },
         {
-          "expr": "probe_events_missing_10m_share",
-          "hide": false,
+          "expr": "rate(probe_requests_failed_total[3m]) * 60",
+          "hide": true,
           "interval": "",
-          "legendFormat": "10m",
+          "legendFormat": "3m",
           "refId": "B"
         },
         {
-          "expr": "probe_events_missing_1h_share",
+          "expr": "rate(probe_requests_failed_total[10m]) * 60",
           "hide": false,
           "interval": "",
-          "legendFormat": "1h",
+          "legendFormat": "10m",
           "refId": "C"
         }
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:182",
           "colorMode": "critical",
           "fill": true,
-          "line": true,
+          "line": false,
           "op": "gt",
-          "value": 2,
-          "visible": true
+          "value": null,
+          "yaxis": "left"
         }
       ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Events missing (share)",
+      "title": "Failed / min",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -697,141 +661,17 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:397",
-          "decimals": 0,
-          "format": "percent",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "$$hashKey": "object:398",
+          "$$hashKey": "object:385",
+          "decimals": null,
           "format": "short",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": null,
-      "description": "Considered *lost* after being missing for a configured amount of time.",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {},
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 16
-      },
-      "hiddenSeries": false,
-      "id": 11,
-      "legend": {
-        "avg": true,
-        "current": true,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.4.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "increase(probe_events_lost_total[1m])  ",
-          "interval": "",
-          "legendFormat": "1m",
-          "refId": "A"
-        },
-        {
-          "expr": "increase(probe_events_lost_total[10m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "10m",
-          "refId": "C"
-        },
-        {
-          "expr": "increase(probe_events_lost_total[1h])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "1h",
-          "refId": "D"
-        },
-        {
-          "expr": "increase(probe_events_lost_total[12h])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "12h",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Events lost",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:397",
-          "decimals": 0,
-          "format": "none",
-          "label": "",
-          "logBase": 1,
-          "max": null,
+          "max": "10",
           "min": "0",
           "show": true
         },
         {
-          "$$hashKey": "object:398",
+          "$$hashKey": "object:386",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -859,13 +699,13 @@
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
+      "fill": 5,
+      "fillGradient": 5,
       "gridPos": {
-        "h": 7,
-        "w": 16,
+        "h": 11,
+        "w": 20,
         "x": 0,
-        "y": 24
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 13,
@@ -881,7 +721,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -897,28 +737,28 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "probe_event_latency",
+          "expr": "probe_request_duration",
           "hide": true,
           "interval": "",
-          "legendFormat": "Latency",
+          "legendFormat": "Duration",
           "refId": "A"
         },
         {
-          "expr": "avg_over_time(probe_event_latency[10m])",
+          "expr": "avg_over_time(probe_request_duration[10m])",
           "hide": false,
           "interval": "",
           "legendFormat": "Average [10m]",
           "refId": "B"
         },
         {
-          "expr": "max_over_time(probe_event_latency[10m])",
+          "expr": "max_over_time(probe_request_duration[10m])",
           "hide": false,
           "interval": "",
           "legendFormat": "Max [10m]",
           "refId": "C"
         },
         {
-          "expr": "quantile_over_time(0.90, probe_event_latency[10m])",
+          "expr": "quantile_over_time(0.90, probe_request_duration[10m])",
           "hide": false,
           "interval": "",
           "legendFormat": "90% quantile [10m]",
@@ -929,7 +769,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Event latency",
+      "title": "Request duration",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -999,10 +839,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 11,
         "w": 4,
-        "x": 16,
-        "y": 24
+        "x": 20,
+        "y": 20
       },
       "id": 15,
       "options": {
@@ -1017,124 +857,17 @@
       "pluginVersion": "7.4.1",
       "targets": [
         {
-          "expr": "probe_event_latency",
+          "expr": "probe_request_duration",
           "interval": "",
-          "legendFormat": "Latency",
+          "legendFormat": "Duration",
           "refId": "A"
         }
       ],
-      "title": "Latency",
+      "title": "Request duration",
       "type": "table"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 20,
-        "y": 24
-      },
-      "hiddenSeries": false,
-      "id": 20,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.4.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "probe_event_listeners_count",
-          "interval": "",
-          "legendFormat": "Total",
-          "refId": "A"
-        },
-        {
-          "expr": "probe_event_listeners_connected_count",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Connected",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Event listeners",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:63",
-          "decimals": 0,
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "$$hashKey": "object:64",
-          "decimals": null,
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     }
   ],
-  "refresh": "10s",
+  "refresh": "5s",
   "schemaVersion": 27,
   "style": "dark",
   "tags": [],
@@ -1142,7 +875,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},

@@ -1,20 +1,14 @@
-import json
 import logging
 import os
 
 import requests
-from okdata.sdk.config import Config
-from okdata.sdk.event.post_event import PostEvent
+from okdata.sdk.data.dataset import Dataset
 
 from .probe import Probe
-from .tasks import print_events
 
 LOCAL_RUN = os.getenv("LOCAL_RUN") == "true"
 LOCAL_SERVICES_ONLY = os.getenv("LOCAL_SERVICES_ONLY") == "true"
-LOCAL_EVENT_COLLECTOR_URL = "http://localhost:8081/"
-WEBSOCKET_BASE_URL = (
-    "ws://localhost:8765" if LOCAL_SERVICES_ONLY else os.environ["WEBSOCKET_URL"]
-)
+LOCAL_METADATA_API_URL = "http://localhost:8081/metadata"
 
 if LOCAL_RUN:
     logging.basicConfig(
@@ -32,14 +26,14 @@ def configure_sdk():
     if LOCAL_SERVICES_ONLY:
 
         class LocalSDK:
-            def post_event(self, payload, dataset_id, version, retries):
-                requests.post(LOCAL_EVENT_COLLECTOR_URL, json.dumps(payload))
+            def get_dataset(self, datasetid, retries):
+                res = requests.get(f"{LOCAL_METADATA_API_URL}/{datasetid}")
+                res.raise_for_status()
+                return res.json()
 
         return LocalSDK()
 
-    origo_config = Config()
-    origo_config.config["cacheCredentials"] = True
-    return PostEvent(config=origo_config)
+    return Dataset()
 
 
 if __name__ == "__main__":
@@ -49,22 +43,9 @@ if __name__ == "__main__":
     probe = Probe(
         sdk,
         {
-            "EVENT_INTERVAL_SECONDS": int(os.getenv("EVENT_INTERVAL_SECONDS", 10)),
-            "DISMISS_EVENT_TIMEOUT_SECONDS": int(
-                os.getenv("DISMISS_EVENT_TIMEOUT_SECONDS", 60 * 60 * 24)
-            ),
-            "CLEAN_EVENTS_INTERVAL_SECONDS": int(
-                os.getenv("CLEAN_EVENTS_INTERVAL_SECONDS", 60 * 5)
-            ),
+            "TASK_INTERVAL_SECONDS": int(os.getenv("TASK_INTERVAL_SECONDS", 10)),
             "DATASET_ID": os.environ["DATASET_ID"],
-            "DATASET_VERSION": os.getenv("DATASET_VERSION", 1),
-            "WEBSOCKET_BASE_URL": WEBSOCKET_BASE_URL,
-            "WEBSOCKET_LISTENERS": int(os.getenv("WEBSOCKET_LISTENERS", 2)),
-            "WEBHOOK_TOKEN": os.environ["WEBHOOK_TOKEN"],
         },
     )
-
-    if LOCAL_RUN:
-        probe.loop.create_task(print_events(probe, interval=30))
 
     probe.run()

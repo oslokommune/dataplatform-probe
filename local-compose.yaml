@@ -36,11 +36,6 @@ services:
     networks:
       - probe
 
-  wsserver:
-    build: ./local/ws_server
-    ports:
-      - 8765:8765
-
   httpserver:
     build: ./local/http_server
     ports:

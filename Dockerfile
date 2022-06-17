@@ -1,5 +1,5 @@
 # python:3.8-bullseye
-FROM python@sha256:eb6bb612babb3bcb3b846e27904807f0fd2322b8d3d832b84dbc244f8fb25068
+FROM python@sha256:1fbd81716d6d8d6081b11b058894533e36c93abd10d91560ac8011a27ca13947
 
 WORKDIR /usr/src/app/workdir
 COPY requirements.txt ./

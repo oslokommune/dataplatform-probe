@@ -18,10 +18,11 @@ metrics to Prometheus regarding pipeline latency through a http server on port `
 
 The app is configurable by setting the following environment variables (* = required, no default):
 
-| Name                    | Description                          | Default |
-|-------------------------|--------------------------------------|---------|
-| `DATASET_ID`*           | Dataset ID                           |         |
-| `TASK_INTERVAL_SECONDS` | Interval in seconds between requests | `10`    |
+| Name                         | Description                                                  | Default |
+|------------------------------|--------------------------------------------------------------|---------|
+| `DATASET_ID`*                | Dataset ID                                                   |         |
+| `TASK_INTERVAL_SECONDS`      | Interval in seconds between requests                         | `30`    |
+| `BETTERUPTIME_HEARTBEAT_URL` | Send heartbeat to Better Uptime on successful task execution |         |
 
 In addition, `OKDATA_CLIENT_ID`, `OKDATA_CLIENT_SECRET`, and `OKDATA_ENVIRONMENT`, must also be set when deploying.
 

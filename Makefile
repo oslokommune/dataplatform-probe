@@ -45,6 +45,7 @@ run: setup-local-env
 	LOCAL_RUN=true \
 	LOCAL_SERVICES_ONLY=true \
 	DATASET_ID=abc123 \
+	BETTERUPTIME_HEARTBEAT_URL=http://localhost:8081/heartbeat \
 	$(BUILD_VENV)/bin/python -m probe
 
 .PHONY: run-dp

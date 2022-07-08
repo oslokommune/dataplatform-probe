@@ -3,6 +3,8 @@ import logging
 from threading import Thread
 from datetime import datetime, timedelta
 
+import requests
+
 from .models import RequestTask
 
 logger = logging.getLogger(__name__)
@@ -21,6 +23,23 @@ def _get_dataset_request(probe, request_task):
         probe.on_request_task_fail(request_task, e)
     else:
         probe.on_request_task_success(request_task)
+
+        if url := probe.config["BETTERUPTIME_HEARTBEAT_URL"]:
+            _send_successful_dataset_request_heartbeat(url)
+
+
+def _send_successful_dataset_request_heartbeat(url):
+    try:
+        logger.info("Heartbeat sent")
+        response = requests.head(url)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        status_code = getattr(e.response, "status_code", None)
+        logger.error(
+            "Heartbeat request failed{}".format(
+                f" ({status_code})" if status_code else ""
+            )
+        )
 
 
 async def get_dataset(probe):

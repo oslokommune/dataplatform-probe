@@ -41,5 +41,11 @@ def get_dataset_metadata(dataset_id):
     )
 
 
+@app.route("/heartbeat")
+def heartbeat():
+    logger.info("Heartbeat received")
+    return "OK", 200
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8081)

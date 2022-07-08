@@ -8,7 +8,7 @@ from .probe import Probe
 
 LOCAL_RUN = os.getenv("LOCAL_RUN") == "true"
 LOCAL_SERVICES_ONLY = os.getenv("LOCAL_SERVICES_ONLY") == "true"
-LOCAL_METADATA_API_URL = "http://localhost:8081/metadata"
+LOCAL_API_URL = "http://localhost:8081"
 
 if LOCAL_RUN:
     logging.basicConfig(
@@ -27,7 +27,7 @@ def configure_sdk():
 
         class LocalSDK:
             def get_dataset(self, datasetid, retries):
-                res = requests.get(f"{LOCAL_METADATA_API_URL}/{datasetid}")
+                res = requests.get(f"{LOCAL_API_URL}/metadata/{datasetid}")
                 res.raise_for_status()
                 return res.json()
 
@@ -43,8 +43,9 @@ if __name__ == "__main__":
     probe = Probe(
         sdk,
         {
-            "TASK_INTERVAL_SECONDS": int(os.getenv("TASK_INTERVAL_SECONDS", 10)),
+            "BETTERUPTIME_HEARTBEAT_URL": os.getenv("BETTERUPTIME_HEARTBEAT_URL"),
             "DATASET_ID": os.environ["DATASET_ID"],
+            "TASK_INTERVAL_SECONDS": int(os.getenv("TASK_INTERVAL_SECONDS", 30)),
         },
     )
 

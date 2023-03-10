@@ -16,7 +16,7 @@ charset-normalizer==2.0.12
     # via requests
 ecdsa==0.17.0
     # via python-jose
-future==0.18.2
+future==0.18.3
     # via aws-xray-sdk
 idna==3.3
     # via requests

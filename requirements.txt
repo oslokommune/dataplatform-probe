@@ -10,7 +10,7 @@ aws-xray-sdk==2.9.0
     # via dataplatform-probe (setup.py)
 botocore==1.25.12
     # via aws-xray-sdk
-certifi==2022.12.7
+certifi==2023.7.22
     # via requests
 charset-normalizer==2.0.12
     # via requests

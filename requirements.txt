@@ -10,7 +10,7 @@ aws-xray-sdk==2.9.0
     # via dataplatform-probe (setup.py)
 botocore==1.25.12
     # via aws-xray-sdk
-certifi==2023.7.22
+certifi==2024.7.4
     # via requests
 cffi==1.16.0
     # via cryptography

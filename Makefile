@@ -41,7 +41,7 @@ stop-local-env:
 		stop
 
 .PHONY: run
-run: setup-local-env
+run: init setup-local-env
 	LOCAL_RUN=true \
 	LOCAL_SERVICES_ONLY=true \
 	DATASET_ID=abc123 \
@@ -49,7 +49,7 @@ run: setup-local-env
 	$(BUILD_VENV)/bin/python -m probe
 
 .PHONY: run-dp
-run-dp: setup-local-env
+run-dp: init setup-local-env
 	LOCAL_RUN=true \
 	LOCAL_SERVICES_ONLY=false \
 	$(BUILD_VENV)/bin/python -m probe

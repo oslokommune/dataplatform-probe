@@ -15,10 +15,7 @@ def _get_dataset_request(probe, request_task):
 
     try:
         logger.debug(f"{request_task}: Fetching dataset {dataset_id}")
-        probe.sdk.get_dataset(
-            datasetid=dataset_id,
-            retries=3,
-        )
+        probe.sdk.get_dataset(dataset_id, retries=3)
     except Exception as e:
         probe.on_request_task_fail(request_task, e)
     else:

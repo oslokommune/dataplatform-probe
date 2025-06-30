@@ -32,7 +32,7 @@ jsonschema-specifications==2024.10.1
     # via jsonschema
 jwcrypto==1.5.6
     # via python-keycloak
-okdata-sdk==3.2.0
+okdata-sdk==3.3.0
     # via dataplatform-probe (setup.py)
 packaging==24.1
     # via deprecation
@@ -64,7 +64,7 @@ six==1.16.0
     # via python-dateutil
 typing-extensions==4.12.2
     # via jwcrypto
-urllib3==1.26.20
+urllib3==2.5.0
     # via
     #   botocore
     #   okdata-sdk

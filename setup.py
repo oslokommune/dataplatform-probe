@@ -15,7 +15,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "aws-xray-sdk",
-        "okdata-sdk>=3.1.1,<4",
+        "okdata-sdk>=3.3,<4",
         "prometheus-client",
         "requests",
     ],

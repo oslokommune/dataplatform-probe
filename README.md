@@ -55,8 +55,8 @@ The `run` target sets `LOCAL_RUN=true` and `LOCAL_SERVICES_ONLY=true`. While the
 To test against real dataplatform services (while still running the application locally), set the appropriate environment variables listed above (i.e. credentials and dataset id) and use `make run-dp`.
 
 ```sh
-$ docker-compose -f local-compose.yaml ps # Check services
-$ docker-compose -f local-compose.yaml logs --follow --tail=10 # Tail service logs
+$ docker compose -f local-compose.yaml ps # Check services
+$ docker compose -f local-compose.yaml logs --follow --tail=10 # Tail service logs
 ```
 
 ## Deploy

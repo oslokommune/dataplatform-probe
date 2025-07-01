@@ -26,17 +26,17 @@ upgrade-deps: $(BUILD_VENV)/bin/pip-compile
 	$(BUILD_VENV)/bin/pip-compile -U
 
 setup-local-env:
-	docker-compose \
+	docker compose \
 		-f local-compose.yaml \
 		up -d
 
 tear-down-local-env:
-	docker-compose \
+	docker compose \
 		-f local-compose.yaml \
 		down -v --remove-orphans || true
 
 stop-local-env:
-	docker-compose \
+	docker compose \
 		-f local-compose.yaml \
 		stop
 

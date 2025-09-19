@@ -5,4 +5,10 @@ RUN mkdir /usr/src/app/
 COPY . /usr/src/app/
 WORKDIR /usr/src/app/
 RUN pip install flask
+
+RUN groupadd -r app
+RUN useradd -r -g app app
+RUN chown -R app:app /usr/src/app
+USER app
+
 CMD ["python", "http_server.py"]

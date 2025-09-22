@@ -15,5 +15,10 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 8000
 
+RUN groupadd -r app
+RUN useradd -r -g app app
+RUN chown -R app:app /usr/src/app/workdir
+USER app
+
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["python", "-m", "probe"]

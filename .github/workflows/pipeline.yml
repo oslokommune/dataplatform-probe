@@ -6,16 +6,18 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy_dev:
     uses: ./.github/workflows/deploy_dev.yml
     secrets:
-      AWS_ACCESS_KEY_DEV: ${{ secrets.AWS_ACCESS_KEY_DEV }}
-      AWS_SECRET_ACCESS_KEY_DEV: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+      AWS_ACCOUNT_DEV: ${{ secrets.AWS_ACCOUNT_DEV }}
 
   deploy_prod:
     uses: ./.github/workflows/deploy_prod.yml
     needs: deploy_dev
     secrets:
-      AWS_ACCESS_KEY_PROD: ${{ secrets.AWS_ACCESS_KEY_PROD }}
-      AWS_SECRET_ACCESS_KEY_PROD: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+      AWS_ACCOUNT_PROD: ${{ secrets.AWS_ACCOUNT_PROD }}

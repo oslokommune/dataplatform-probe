@@ -1,5 +1,5 @@
-# python:3.13-slim-bookworm
-FROM python@sha256:751d8bece269ba9e672b3f2226050e7e6fb3f3da3408b5dcb5d415a054fcb061
+# python:3.13-slim-trixie
+FROM python@sha256:739e7213785e88c0f702dcdc12c0973afcbd606dbf021a589cab77d6b00b579d
 
 WORKDIR /usr/src/app/workdir
 COPY requirements.txt ./

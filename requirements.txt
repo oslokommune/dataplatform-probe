@@ -30,7 +30,7 @@ jsonschema==4.23.0
     # via okdata-sdk
 jsonschema-specifications==2024.10.1
     # via jsonschema
-jwcrypto==1.5.6
+jwcrypto==1.5.7
     # via python-keycloak
 okdata-sdk==3.3.0
     # via dataplatform-probe (setup.py)

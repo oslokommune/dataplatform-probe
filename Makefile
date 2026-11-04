@@ -43,15 +43,16 @@ stop-local-env:
 .PHONY: run
 run: init setup-local-env
 	LOCAL_RUN=true \
-	LOCAL_SERVICES_ONLY=true \
-	DATASET_ID=abc123 \
+	KEYCLOAK_SERVER_URL=http://localhost:8081 \
+	KEYCLOAK_REALM=probe \
+	KEYCLOAK_CLIENT_ID=probe \
+	KEYCLOAK_CLIENT_SECRET=secret \
 	BETTERUPTIME_HEARTBEAT_URL=http://localhost:8081/heartbeat \
 	$(BUILD_VENV)/bin/python -m probe
 
-.PHONY: run-dp
-run-dp: init setup-local-env
+.PHONY: run-keycloak
+run-keycloak: init setup-local-env
 	LOCAL_RUN=true \
-	LOCAL_SERVICES_ONLY=false \
 	$(BUILD_VENV)/bin/python -m probe
 
 

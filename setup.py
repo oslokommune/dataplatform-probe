@@ -14,8 +14,6 @@ setup(
     url="https://github.com/oslokommune/dataplatform-probe",
     packages=find_packages(),
     install_requires=[
-        "aws-xray-sdk",
-        "okdata-sdk>=3.3,<4",
         "prometheus-client",
         "requests",
     ],

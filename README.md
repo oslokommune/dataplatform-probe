@@ -1,11 +1,11 @@
 # dataplatform-probe
 Monitoring service for dataplatform services.
 
-Continuously sends GET requests to the dataplatform metadata-api in order to keep an eye on Keycloak.
+Continuously requests access tokens from Keycloak using the client credentials grant in order to keep an eye on it.
 
 ## Metrics
 This app uses the [prometheus_client](https://github.com/prometheus/client_python) library to expose
-metrics to Prometheus regarding pipeline latency through a http server on port `8000`.
+metrics to Prometheus regarding request latency through a http server on port `8000`.
 
 | Name                       | Type      | Description                                 |
 |----------------------------|-----------|---------------------------------------------|
@@ -20,11 +20,13 @@ The app is configurable by setting the following environment variables (* = requ
 
 | Name                         | Description                                                  | Default |
 |------------------------------|--------------------------------------------------------------|---------|
-| `DATASET_ID`*                | Dataset ID                                                   |         |
+| `KEYCLOAK_SERVER_URL`*       | Keycloak base URL, e.g. `https://login.oslo.kommune.no/auth` |         |
+| `KEYCLOAK_REALM`*            | Keycloak realm, e.g. `api-catalog`                           |         |
+| `KEYCLOAK_CLIENT_ID`*        | Client ID used for the client credentials grant              |         |
+| `KEYCLOAK_CLIENT_SECRET`*    | Client secret used for the client credentials grant          |         |
 | `TASK_INTERVAL_SECONDS`      | Interval in seconds between requests                         | `30`    |
+| `REQUEST_TIMEOUT_SECONDS`    | Timeout in seconds for each request                          | `10`    |
 | `BETTERUPTIME_HEARTBEAT_URL` | Send heartbeat to Better Uptime on successful task execution |         |
-
-In addition, `OKDATA_CLIENT_ID`, `OKDATA_CLIENT_SECRET`, and `OKDATA_ENVIRONMENT`, must also be set when deploying.
 
 ## Development
 
@@ -48,11 +50,11 @@ By issuing the command `make run`, a local environment is configured comprising 
   Observability and data visualization platform. Includes a provisioned datasource and dashboard for the application. Default username/password: `admin`/`admin`.
 
 * **HTTP server** | `http://localhost:8081` \
-  Accepts requests from tasks, currently emulating [okdata-metadata-api](https://github.com/oslokommune/okdata-metadata-api). By default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of requests, as well as failing with `401` for ~5 percent (configurable in `local/http_server/http_server.py`).
+  Accepts requests from tasks, emulating the Keycloak token endpoint. By default configured to introduce some (more or less random) latency (between 0-3 seconds) for ~10 percent of requests, as well as failing with `401` for ~5 percent (configurable in `local/http_server/http_server.py`).
 
-The `run` target sets `LOCAL_RUN=true` and `LOCAL_SERVICES_ONLY=true`. While the first environment variable enables "debug mode", the latter tells the application to use the "dummy" HTTP server mentioned above.
+The `run` target sets `LOCAL_RUN=true`, which enables "debug mode", and points the application at the "dummy" HTTP server mentioned above.
 
-To test against real dataplatform services (while still running the application locally), set the appropriate environment variables listed above (i.e. credentials and dataset id) and use `make run-dp`.
+To test against a real Keycloak instance (while still running the application locally), set the environment variables listed above and use `make run-keycloak`.
 
 ```sh
 $ docker compose -f local-compose.yaml ps # Check services

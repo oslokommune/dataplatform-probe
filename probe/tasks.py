@@ -10,25 +10,48 @@ from .models import RequestTask
 logger = logging.getLogger(__name__)
 
 
-def _get_dataset_request(probe, request_task):
-    dataset_id = probe.config["DATASET_ID"]
+def _token_url(config):
+    return "{}/realms/{}/protocol/openid-connect/token".format(
+        config["KEYCLOAK_SERVER_URL"].rstrip("/"), config["KEYCLOAK_REALM"]
+    )
+
+
+def _request_token(probe, request_task):
+    """Request a new access token from Keycloak using client credentials.
+
+    Keycloak is considered healthy when the token endpoint responds
+    successfully with an access token.
+    """
+    config = probe.config
+    url = _token_url(config)
 
     try:
-        logger.debug(f"{request_task}: Fetching dataset {dataset_id}")
-        probe.sdk.get_dataset(dataset_id, retries=3)
+        logger.debug(f"{request_task}: Requesting token from {url}")
+        response = requests.post(
+            url,
+            data={
+                "grant_type": "client_credentials",
+                "client_id": config["KEYCLOAK_CLIENT_ID"],
+                "client_secret": config["KEYCLOAK_CLIENT_SECRET"],
+            },
+            timeout=config["REQUEST_TIMEOUT_SECONDS"],
+        )
+        response.raise_for_status()
+        if "access_token" not in response.json():
+            raise ValueError("Token response did not contain an access token")
     except Exception as e:
         probe.on_request_task_fail(request_task, e)
     else:
         probe.on_request_task_success(request_task)
 
-        if url := probe.config["BETTERUPTIME_HEARTBEAT_URL"]:
-            _send_successful_dataset_request_heartbeat(url)
+        if heartbeat_url := config["BETTERUPTIME_HEARTBEAT_URL"]:
+            _send_heartbeat(heartbeat_url, config["REQUEST_TIMEOUT_SECONDS"])
 
 
-def _send_successful_dataset_request_heartbeat(url):
+def _send_heartbeat(url, timeout):
     try:
         logger.info("Heartbeat sent")
-        response = requests.head(url)
+        response = requests.head(url, timeout=timeout)
         response.raise_for_status()
     except requests.RequestException as e:
         status_code = getattr(e.response, "status_code", None)
@@ -39,7 +62,7 @@ def _send_successful_dataset_request_heartbeat(url):
         )
 
 
-async def get_dataset(probe):
+async def request_token(probe):
     interval = timedelta(seconds=int(probe.config["TASK_INTERVAL_SECONDS"]))
     next_request = datetime.now() + timedelta(seconds=2)
 
@@ -51,6 +74,6 @@ async def get_dataset(probe):
         request_task = RequestTask(app_id=probe.app_id, seqno=next(probe.counter))
         probe.on_request_task_created(request_task)
 
-        Thread(target=_get_dataset_request, args=(probe, request_task)).start()
+        Thread(target=_request_token, args=(probe, request_task)).start()
 
         next_request = next_request + interval

@@ -8,21 +8,20 @@ from prometheus_client import start_http_server
 
 from .metrics import Metrics
 from .models import RequestTask, RequestState
-from .tasks import get_dataset
+from .tasks import request_token
 
 logger = logging.getLogger(__name__)
 
 
 class Probe:
-    def __init__(self, sdk, config):
+    def __init__(self, config):
         logger.info("Initializing probe application")
 
         self.app_id = str(uuid.uuid4())[:8]
         self.config = config
-        self.sdk = sdk
         self.counter = count(start=1)
         self.metrics = Metrics()
-        self.loop = asyncio.get_event_loop()
+        self.loop = asyncio.new_event_loop()
 
     def on_request_task_created(self, request_task: RequestTask):
         request_task.time_created = datetime.now(timezone.utc)
@@ -51,6 +50,6 @@ class Probe:
         # Serve Prometheus metrics
         start_http_server(8000)
 
-        self.loop.create_task(get_dataset(self))
+        self.loop.create_task(request_token(self))
 
         self.loop.run_forever()
